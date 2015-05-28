@@ -2,6 +2,13 @@
 
 package QueclinkProto;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import org.apache.commons.codec.binary.Base64;
 
 import com.google.gson.Gson;
@@ -82,6 +89,88 @@ public class Gtign extends QueclinkReport{
 	public int getTemplateId() {
 		return ScopeEventCode.EngineStart;
 	}
-
-
+	
+	public int TripStartworkAround(String id){
+		String tripfile = id +"trip.txt";
+		int tripid;
+		
+		if (FileExist(tripfile)!=0){
+			tripid = ActualizarTripfile (tripfile);
+		}
+		else{
+			EscribirTripfile(tripfile,1);
+			return 1;
+		}
+		return tripid;
+	}
+	
+	public void TripShutdownworkAround(String id){
+		
+	}
+	public void EscribirTripfile(String archivo, int valor){
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		
+		try
+        {
+            fichero = new FileWriter(archivo);
+            pw = new PrintWriter(fichero);
+            pw.println(valor);
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           // Nuevamente aprovechamos el finally para 
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+	};
+	public int LeerTripfile(String archivo){
+		File fichero = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		String linea = "";
+		
+		try{
+			fichero = new File (archivo);
+			fr = new FileReader (fichero);
+			br = new BufferedReader(fr);
+			
+			
+			linea = br.readLine();
+		}
+		catch (Exception e){
+			 e.printStackTrace();
+		}
+		finally{
+			if( null != fr ){   
+	               try {
+					fr.close();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}     
+	        }  
+		}
+		return Integer.parseInt(linea);
+	};
+	public int ActualizarTripfile(String archivo){
+		int valor;
+		valor = LeerTripfile(archivo);
+		EscribirTripfile(archivo,++valor);
+		return valor;
+	};
+	
+	public int FileExist(String archivo){
+		File f = new File(archivo);
+		if(f.exists() && !f.isDirectory()) return 1;
+			
+		return 0;
+	}
+	
 }
