@@ -78,8 +78,8 @@ public class Gtigf extends QueclinkReport{
 		TripShutdown scopeEvent = TripShutdown
 				.newBuilder()
 				.setHeader(header)
-				.setTripDistanceMeters(mileage)
-				.setTripDurationSeconds(utcTime)
+				.setTripDistanceMeters((int) mileage)
+				.setTripDurationSeconds((int) utcTime)
 				.setTripId(tripIdentifier)
 				.build();
 				
