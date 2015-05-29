@@ -1,5 +1,6 @@
 package QueclinkProto;
 
+// Aqui tambien hay cambios para forzar el trip start up.
 public class ScopeReportType {
 	private int id;
 	private String description;
@@ -10,12 +11,16 @@ public class ScopeReportType {
 			description = "PeriodicPosition";
 		}
 		else if (reportType.equals("GTIGN")){
-			id = ScopeEventCode.EngineStart;
-			description = "EngineStart";
+			//id = ScopeEventCode.EngineStart;
+			//description = "EngineStart";
+			id = ScopeEventCode.TripStartup;
+			description = "TripStartup";
 		}
 		else if (reportType.equals("GTIGF")){
-			id = ScopeEventCode.EngineStop;
-			description = "EngineStop";
+			//id = ScopeEventCode.EngineStop;
+			//description = "EngineStop";
+			id = ScopeEventCode.TripShutdown;
+			description = "TripShutdown";
 		}
 		else if (reportType.equals("GTMPN")){
 			id = ScopeEventCode.MainPowerHigh;

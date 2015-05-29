@@ -1,4 +1,5 @@
 //+RESP:GTIGF: Ignition off report
+//Cambiamos engine off, por tripstartp para mayor compatibilidad con la plataforma
 
 package QueclinkProto;
 
@@ -6,6 +7,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import ScopeProtoJava.EngineStopProto.EngineStop;
 import ScopeProtoJava.EventHeaderProto.EventHeader;
+import ScopeProtoJava.TripShutdownProto.TripShutdown;
 
 public class Gtigf extends QueclinkReport{
 	
@@ -52,7 +54,7 @@ public class Gtigf extends QueclinkReport{
 	@Override
 	public String encode() {
 		ScopeReportType scope = new ScopeReportType ("GTIGF");
-		
+		int tripDistance = 0, tripDuration = 0, tripIdentifier = 0;
 		EventHeader header = EventHeader
 				.newBuilder()
 				.setDescription(scope.getDescription ())
@@ -67,9 +69,18 @@ public class Gtigf extends QueclinkReport{
 				.setUtcTimestampSeconds(utcTime)
 				.build();
 		
-		EngineStop scopeEvent = EngineStop
+		/*EngineStop scopeEvent = EngineStop
 				.newBuilder()
 				.setHeader(header)
+				.build();*/
+		// Se cambia por trip y workaround
+		tripIdentifier = TripWorkAround.TripShutdownworkAround(uniqueId, mileage, utcTime);
+		TripShutdown scopeEvent = TripShutdown
+				.newBuilder()
+				.setHeader(header)
+				.setTripDistanceMeters(mileage)
+				.setTripDurationSeconds(utcTime)
+				.setTripId(tripIdentifier)
 				.build();
 				
 		return Base64.encodeBase64String (scopeEvent.toByteArray());
@@ -77,7 +88,8 @@ public class Gtigf extends QueclinkReport{
 
 	@Override
 	public int getTemplateId() {
-		return ScopeEventCode.EngineStop;
+		//return ScopeEventCode.EngineStop;
+		return ScopeEventCode.TripShutdown;
 	}
 
 }
