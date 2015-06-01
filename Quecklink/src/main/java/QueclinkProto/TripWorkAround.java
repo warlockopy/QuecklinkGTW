@@ -8,54 +8,72 @@ import java.io.PrintWriter;
 
 
 public class TripWorkAround {
-	public int idT;
-	public double millasT;
-	public long utctimeT;
+	private int tripId;
+	private double mileage;
+	private long utcTime;
+	
+	public TripWorkAround(double mileage, long time) {
+		this.mileage = mileage;
+		this.utcTime = time;
+	}
+	
 	public TripWorkAround() {
 	}
 	
-	public static int TripStartupworkAround(String id, Double millaje, long time){
-		String tripfile = id +"trip.txt";
-		int tripid;
+	public int getTripId () { return tripId; }
+	public long getUtcTime () { return utcTime; }
+	public double getMileage () { return mileage; }
+	public int getDurationSeconds () { return (int) utcTime; }
+	public int getTripDistanceMeters () { return (int) (mileage * 1000); }
+	
+	public void setTripId (int tripId) { this.tripId = tripId; }
+	public void setMileage (double mileage) { this.mileage = mileage; }
+	public void setUtcTime (long utcTime) { this.utcTime = utcTime; }
+	
+	public static int tripStartupWorkAround(String id, double mileage, long time){
+		String tripFile = id + "trip.txt";
 		
-		TripWorkAround TripData = new TripWorkAround();
+		TripWorkAround tripData = new TripWorkAround (mileage, time);
 		
-		TripData.millasT = millaje;
-		TripData.utctimeT = time;
-		
-		if (FileExist(tripfile)!=0){
-			TripWorkAround OldTripData = new TripWorkAround();
-			LeerTripfile(tripfile, OldTripData);
-			TripData.idT = OldTripData.idT +1;
-			EscribirTripfile (tripfile, TripData);
-			return TripData.idT;
+		if (fileExists (tripFile) != 0){
+			TripWorkAround oldTripData = new TripWorkAround ();
+			LeerTripFile (tripFile, oldTripData);
+			tripData.setTripId (oldTripData.getTripId () + 1);
+			escribirTripFile (tripFile, tripData);
 		}
 		else{
-			TripData.idT = 1;
-			EscribirTripfile(tripfile, TripData);
-			return 1;
+			tripData.setTripId (1);
+			escribirTripFile(tripFile, tripData);
 		}
+		
+		return tripData.getTripId ();
 	}
 	
-	public static int TripShutdownworkAround(String id, double millaje, long time){
-		String tripfile = id +"trip.txt";
-		int tripid;
-		TripWorkAround TripData = new TripWorkAround();
+	public static TripWorkAround tripShutdownWorkAround(String id, double mileage, long time){
+		String tripFile = id + "trip.txt";
+		int tripId = 0;
+		double deltaMileage = 0;
+		long deltaTime = 0;
+		TripWorkAround tripData = new TripWorkAround();
 		
-		if (FileExist(tripfile)!= 0){
-			LeerTripfile(tripfile, TripData);
-			tripid = TripData.idT;
-			millaje = millaje - TripData.millasT;
-			time = time - TripData.utctimeT;
-		}{
-			EscribirTripfile(tripfile, TripData);
-			millaje = 0;
-			time = 0;
-			tripid = 0;
+		if (fileExists (tripFile) != 0){
+			LeerTripFile (tripFile, tripData);
+			tripId = tripData.getTripId ();
+			deltaMileage = mileage - tripData.getMileage ();
+			deltaTime = time - tripData.getUtcTime ();
+			time -= tripData.getUtcTime ();
 		}
-		return tripid;
+		else {
+			escribirTripFile (tripFile, tripData);
+		}
+		
+		TripWorkAround ans = new TripWorkAround (deltaMileage, deltaTime);
+		ans.setTripId (tripId);
+		
+		return ans;
 	}
-	public static void EscribirTripfile(String archivo, TripWorkAround data){
+	
+	public static void escribirTripFile(String archivo, TripWorkAround data){
 		FileWriter fichero = null;
 		PrintWriter pw = null;
 		
@@ -63,9 +81,9 @@ public class TripWorkAround {
         {
             fichero = new FileWriter(archivo);
             pw = new PrintWriter(fichero);
-            pw.println(data.idT);
-            pw.println(data.millasT);
-            pw.println(data.utctimeT);
+            pw.println(data.getTripId ());
+            pw.println(data.getMileage ());
+            pw.println(data.getUtcTime ());
  
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,7 +98,8 @@ public class TripWorkAround {
            }
         }
 	};
-	public static int LeerTripfile(String archivo, TripWorkAround data){
+	
+	public static int LeerTripFile(String archivo, TripWorkAround data){
 		File fichero = null;
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -93,11 +112,11 @@ public class TripWorkAround {
 			
 			
 			linea = br.readLine();
-			data.idT = Integer.parseInt(linea);
+			data.setTripId (Integer.parseInt(linea));
 			linea = br.readLine();
-			data.millasT = Double.parseDouble(linea);
+			data.setMileage (Double.parseDouble (linea));
 			linea = br.readLine();
-			data.utctimeT = Long.parseLong(linea);
+			data.setUtcTime (Long.parseLong(linea));
 		}
 		catch (Exception e){
 			 e.printStackTrace();
@@ -112,6 +131,7 @@ public class TripWorkAround {
 				}     
 	        }  
 		}
+		
 		return Integer.parseInt(linea);
 	};
 	/*public static int ActualizarTripfile(String archivo, double millas, long tiempoutc){
@@ -121,10 +141,10 @@ public class TripWorkAround {
 		return valor;
 	};*/
 	
-	public static int FileExist(String archivo){
+	public static int fileExists (String archivo){
 		File f = new File(archivo);
-		if(f.exists() && !f.isDirectory()) return 1;
-			
-		return 0;
+
+		return f.exists() && !f.isDirectory() ? 1 : 0;		
+		
 	}
 }

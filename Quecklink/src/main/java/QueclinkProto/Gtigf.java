@@ -54,7 +54,8 @@ public class Gtigf extends QueclinkReport{
 	@Override
 	public String encode() {
 		ScopeReportType scope = new ScopeReportType ("GTIGF");
-		int tripDistance = 0, tripDuration = 0, tripIdentifier = 0;
+		TripWorkAround trip = TripWorkAround.tripShutdownWorkAround (uniqueId, mileage, utcTime);
+
 		EventHeader header = EventHeader
 				.newBuilder()
 				.setDescription(scope.getDescription ())
@@ -74,13 +75,14 @@ public class Gtigf extends QueclinkReport{
 				.setHeader(header)
 				.build();*/
 		// Se cambia por trip y workaround
-		tripIdentifier = TripWorkAround.TripShutdownworkAround(uniqueId, mileage, utcTime);
+		
+		
 		TripShutdown scopeEvent = TripShutdown
 				.newBuilder()
 				.setHeader(header)
-				.setTripDistanceMeters((int) mileage)
-				.setTripDurationSeconds((int) utcTime)
-				.setTripId(tripIdentifier)
+				.setTripDistanceMeters(trip.getTripDistanceMeters ())
+				.setTripDurationSeconds(trip.getDurationSeconds ())
+				.setTripId(trip.getTripId())
 				.build();
 				
 		return Base64.encodeBase64String (scopeEvent.toByteArray());

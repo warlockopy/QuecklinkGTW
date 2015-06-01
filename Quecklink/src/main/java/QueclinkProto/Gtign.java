@@ -62,7 +62,7 @@ public class Gtign extends QueclinkReport{
 	@Override
 	public String encode() {
 		ScopeReportType scope = new ScopeReportType ("GTIGN");
-		int tripIdentifier = 0;
+		int tripId = TripWorkAround.tripStartupWorkAround (uniqueId, mileage, utcTime);
 		
 		EventHeader header = EventHeader
 				.newBuilder()
@@ -83,11 +83,11 @@ public class Gtign extends QueclinkReport{
 				.setHeader(header)
 				.build();*/
 		// Cambio por Trip con su parche
-		tripIdentifier = TripWorkAround.TripStartupworkAround(uniqueId, mileage, utcTime);
+		
 		TripStartup scopeEvent = TripStartup
 				.newBuilder()
 				.setHeader(header)
-				.setTripId(tripIdentifier)
+				.setTripId(tripId)
 				.build ();
 				
 		return Base64.encodeBase64String (scopeEvent.toByteArray());
