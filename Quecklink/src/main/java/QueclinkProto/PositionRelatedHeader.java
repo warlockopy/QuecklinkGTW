@@ -29,7 +29,7 @@ public class PositionRelatedHeader {
 		mcc = tok.nextInt();
 		mnc = tok.nextInt();
 		lac = tok.nextHex();
-		cellId = tok.nextInt();
+		cellId = tok.nextHex();
 		tok.nextToken(); //Reserved
 	}
 	

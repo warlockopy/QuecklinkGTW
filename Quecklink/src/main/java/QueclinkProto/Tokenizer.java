@@ -1,6 +1,7 @@
 package QueclinkProto;
 
 public class Tokenizer {
+	
 	private int tokensLeft, ptr1, ptr2;
 	private String str;
 	

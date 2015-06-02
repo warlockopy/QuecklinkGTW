@@ -35,36 +35,36 @@ public class TripWorkAround {
 		
 		TripWorkAround tripData = new TripWorkAround (mileage, time);
 		
-		if (fileExists (tripFile) != 0){
+		if (fileExists (tripFile)){
 			TripWorkAround oldTripData = new TripWorkAround ();
-			LeerTripFile (tripFile, oldTripData);
+			readTripFile (tripFile, oldTripData);
 			tripData.setTripId (oldTripData.getTripId () + 1);
-			escribirTripFile (tripFile, tripData);
+			writeTripFile (tripFile, tripData);
 		}
 		else{
 			tripData.setTripId (1);
-			escribirTripFile(tripFile, tripData);
+			writeTripFile(tripFile, tripData);
 		}
 		
 		return tripData.getTripId ();
 	}
 	
-	public static TripWorkAround tripShutdownWorkAround(String id, double mileage, long time){
+	public static TripWorkAround tripShutdownWorkAround (final String id, double mileage, long time){
 		String tripFile = id + "trip.txt";
 		int tripId = 0;
 		double deltaMileage = 0;
 		long deltaTime = 0;
 		TripWorkAround tripData = new TripWorkAround();
 		
-		if (fileExists (tripFile) != 0){
-			LeerTripFile (tripFile, tripData);
+		if (fileExists (tripFile)){
+			readTripFile (tripFile, tripData);
 			tripId = tripData.getTripId ();
 			deltaMileage = mileage - tripData.getMileage ();
 			deltaTime = time - tripData.getUtcTime ();
 			time -= tripData.getUtcTime ();
 		}
 		else {
-			escribirTripFile (tripFile, tripData);
+			writeTripFile (tripFile, tripData);
 		}
 		
 		TripWorkAround ans = new TripWorkAround (deltaMileage, deltaTime);
@@ -73,7 +73,7 @@ public class TripWorkAround {
 		return ans;
 	}
 	
-	public static void escribirTripFile(String archivo, TripWorkAround data){
+	public static void writeTripFile(final String archivo, TripWorkAround data){
 		FileWriter fichero = null;
 		PrintWriter pw = null;
 		
@@ -99,7 +99,7 @@ public class TripWorkAround {
         }
 	};
 	
-	public static int LeerTripFile(String archivo, TripWorkAround data){
+	public static int readTripFile(final String archivo, TripWorkAround data){
 		File fichero = null;
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -141,10 +141,10 @@ public class TripWorkAround {
 		return valor;
 	};*/
 	
-	public static int fileExists (String archivo){
+	public static boolean fileExists (String archivo){
 		File f = new File(archivo);
 
-		return f.exists() && !f.isDirectory() ? 1 : 0;		
+		return f.exists() && !f.isDirectory ();		
 		
 	}
 }
