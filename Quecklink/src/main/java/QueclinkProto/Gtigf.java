@@ -40,10 +40,11 @@ public class Gtigf extends QueclinkReport{
 		longitude = tok.nextDouble ();
 		latitude = tok.nextDouble ();
 		utcTime = toSeconds (tok.nextToken ());
+		
 		mcc = tok.nextInt ();
 		mnc = tok.nextInt ();
 		lac = tok.nextHex ();
-		cellId = tok.nextInt ();
+		cellId = tok.nextHex ();
 		tok.nextToken (); //Reserved
 		hourMeterCount = tok.nextToken ();
 		mileage = tok.nextDouble ();	

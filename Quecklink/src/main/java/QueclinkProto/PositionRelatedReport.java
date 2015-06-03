@@ -34,7 +34,7 @@ public abstract class PositionRelatedReport extends QueclinkReport {
 		deviceName = tok.nextToken ();
 		tok.nextToken (); //Reserved
 		reportId = tok.nextInt ();
-		number = tok.nextInt ();
+		number = tok.nextHex ();
 		greenHeader.setFields(tok);
 		mileage = tok.nextInt ();
 		sendTime = toSeconds (tok.nextToken ());
