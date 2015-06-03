@@ -2,6 +2,8 @@ package ScopeProtoJava;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+
 public class ResponsePrototype {
 	private String batch_id;
 	private ArrayList <MessagesPostPrototype> messages;
@@ -30,5 +32,9 @@ public class ResponsePrototype {
 	
 	public int messagesCount (){
 		return messages.size ();
+	}
+	
+	public String getJsonMessageAt (int index){
+		return new Gson ().toJson (messages.get (index));
 	}
 }

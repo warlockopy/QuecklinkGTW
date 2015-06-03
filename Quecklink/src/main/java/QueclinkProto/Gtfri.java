@@ -60,7 +60,7 @@ public final class Gtfri extends QueclinkReport {
 				.setDirection(greenHeader.getAzimuth())
 				.setLatitude(greenHeader.getLatitude())
 				.setLongitude(greenHeader.getLongitude())
-				.setOdometer((int)mileage)
+				.setOdometer(toKm (mileage))
 				.setSource(8)
 				.setSpeed((int) greenHeader.getSpeed())
 				.setTemplateId(reportType.getTemplateId())

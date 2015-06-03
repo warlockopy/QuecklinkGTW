@@ -1,11 +1,18 @@
 package server;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.google.gson.Gson;
+
 import QueclinkProto.*;
+import ScopeProtoJava.ResponsePrototype;
 
 public class UdpServer extends Thread {
 	
@@ -34,21 +41,35 @@ public class UdpServer extends Thread {
 				StringTokenizer tok = new StringTokenizer (incomingMessage);
 				ArrayList <QueclinkReport> qlReports = new ArrayList ();
 				
+				ArrayList <Boolean> valid = new ArrayList ();
+				ArrayList <String> allReports = new ArrayList ();
+				
 				while (tok.hasMoreTokens()){
 					String reportMessage = tok.nextToken();
+					allReports.add (reportMessage);
 					System.out.println ("Incoming report " + reportMessage + "\n");
 					
-					QueclinkReport report = ReportBuilder.buildReport(reportMessage);
+					QueclinkReport report = ReportBuilder.buildReport (reportMessage);
 					
-					if (report != null)
+					if (report != null){
 						qlReports.add(report);
-					else
+						valid.add(true);
+					}
+					else{
 						System.out.println ("Invalid report\n");
+						valid.add (false);
+					}
+						
 				}
 				
 				if (!qlReports.isEmpty()){
 					String scopeString = QueclinkToScope.toScopeString(qlReports);
-					sendToScopeServer (scopeString);
+					String serverOutput = sendToScopeServer (scopeString);
+					Gson gson = new Gson ();
+					ServerResponse serverResponse = gson.fromJson (serverOutput, ServerResponse.class);
+					ResponsePrototype responsePrototype = gson.fromJson(scopeString, ResponsePrototype.class);
+					
+					saveReports (allReports, valid, responsePrototype, serverResponse);
 				}
 			}
 			
@@ -58,14 +79,66 @@ public class UdpServer extends Thread {
 		}
 	}
 	
-	private void sendToScopeServer (final String scopeString) {
+	private void saveReports (ArrayList <String> reports, ArrayList <Boolean> sent, ResponsePrototype scope,
+		ServerResponse serverResponse){
 		
-		System.out.println ("Sending " + scopeString + "\n");
+		int responseIndex = 0;
+		
+		for (int i = 0; i < reports.size (); ++i){
+			
+			String toSave = reports.get(i);
+			String scopeString = "";
+			String serverString = "";
+			
+			if (sent.get (i)){
+				scopeString = scope.getJsonMessageAt (responseIndex);
+				serverString = serverResponse.getResultAt(responseIndex);
+				++responseIndex;
+			}
+			
+			if (sent.get (i)){
+				toSave += "\n--------\n" + scopeString + "\n--------\n" + serverString + "\n";
+			}
+			else
+				toSave += "\n--------\n" + "Invalid report" + "\n";
+			
+			saveString (toSave);
+		}
+	}
+	
+	private static void saveString (final String string){
+		
+		DateFormat format = new SimpleDateFormat ("yyyy_MM_dd");
+		String dateString = format.format (new Date ());
+		String fileName = "EVENTS_" + dateString + ".txt";
 		
 		try {
-			int httpResult = HttpRest.httpsClientC(scopeString);
+			FileWriter fWriter = new FileWriter (fileName, true);
+			BufferedWriter writer = new BufferedWriter (fWriter);
+			
+			writer.write(string);
+			writer.newLine();
+			
+			writer.close ();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private String sendToScopeServer (final String scopeString) {
+		
+		System.out.println ("Sending " + scopeString + "\n");
+		String ans = "";
+		
+		try {
+			ans = HttpRest.httpsClientC (scopeString);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return ans;
 	}
 }

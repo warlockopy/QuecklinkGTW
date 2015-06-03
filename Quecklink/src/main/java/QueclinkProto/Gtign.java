@@ -70,7 +70,7 @@ public class Gtign extends QueclinkReport{
 				.setDirection(heading)
 				.setLatitude(latitude)
 				.setLongitude(longitude)
-				.setOdometer((int)mileage)
+				.setOdometer(toKm (mileage))
 				.setSource(8)
 				.setSpeed((int) speed)
 				.setTemplateId(scope.getTemplateId ())

@@ -16,6 +16,8 @@ public abstract class QueclinkReport {
 	protected long sendTime;
 	protected int countNumber;
 	
+	public final double MILE2KM = 1.609344;
+	
 	public abstract String encode ();
 	
 	public static long toSeconds (final String utcTime){
@@ -36,5 +38,9 @@ public abstract class QueclinkReport {
 	
 	public String getUnitId (){
 		return uniqueId;
+	}
+	
+	public int toKm (double mileage){
+		return (int) (mileage * 1.0);
 	}
 }

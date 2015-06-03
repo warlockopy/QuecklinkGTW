@@ -29,7 +29,7 @@ public class HttpRest {
 	public static String username = "PYLS", password = "Dn1f8C5XeJj42AzG";
 	
 	
-	public static int httpsClientC(String datoJson) throws Exception {
+	public static String httpsClientC(String datoJson) throws Exception {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpPost post = new HttpPost(urlscope);
 		String mydatetime, auheader;
@@ -49,6 +49,7 @@ public class HttpRest {
 		input.setContentType("application/json");
 		post.setEntity(input);
 		int httperr;
+		String ans = "";
 		
 		
 		CloseableHttpResponse response = httpclient.execute(post);
@@ -66,8 +67,10 @@ public class HttpRest {
 				
 				System.out.println("\nOutput from Server...\n");
 				
-				while ((output = br.readLine()) != null)
+				while ((output = br.readLine()) != null){
 					System.out.println(output);
+					ans = output;
+				}
 				
 				System.out.println ();
 			
@@ -75,7 +78,7 @@ public class HttpRest {
 			response.close();
 		}
 		
-		return httperr;
+		return ans;
 	}
 	
 	public static String makesignature(String apikey, String stringtosign) {

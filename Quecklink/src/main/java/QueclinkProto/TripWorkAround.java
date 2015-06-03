@@ -24,13 +24,13 @@ public class TripWorkAround {
 	public long getUtcTime () { return utcTime; }
 	public double getMileage () { return mileage; }
 	public int getDurationSeconds () { return (int) utcTime; }
-	public int getTripDistanceMeters () { return (int) (mileage * 1000); }
+	public int getTripDistanceMeters () { return (int) (mileage * 1000.0); }
 	
 	public void setTripId (int tripId) { this.tripId = tripId; }
 	public void setMileage (double mileage) { this.mileage = mileage; }
 	public void setUtcTime (long utcTime) { this.utcTime = utcTime; }
 	
-	public static int tripStartupWorkAround(String id, double mileage, long time){
+	public static int tripStartupWorkAround (String id, double mileage, long time){
 		String tripFile = id + "trip.txt";
 		
 		TripWorkAround tripData = new TripWorkAround (mileage, time);
@@ -61,7 +61,6 @@ public class TripWorkAround {
 			tripId = tripData.getTripId ();
 			deltaMileage = mileage - tripData.getMileage ();
 			deltaTime = time - tripData.getUtcTime ();
-			time -= tripData.getUtcTime ();
 		}
 		else {
 			writeTripFile (tripFile, tripData);
