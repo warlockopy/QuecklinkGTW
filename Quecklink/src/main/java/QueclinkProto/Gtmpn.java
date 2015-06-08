@@ -1,4 +1,5 @@
 //GTMPN: Main power on report
+//El GV55 no envía este reporte
 
 package QueclinkProto;
 

@@ -10,19 +10,23 @@ import com.google.gson.Gson;
 import ScopeProtoJava.EventHeaderProto.EventHeader;
 import ScopeProtoJava.PeriodicPositionProto.PeriodicPosition;
 
-public final class Gtfri extends QueclinkReport {
+public class Gtfri extends QueclinkReport {
 	
-	private int analogInputVcc;
-	private int reportId;
-	private int number;
-	private PositionRelatedHeader greenHeader;
-	private double mileage;
-	private String hourMeterCount;
-	private int multiAnalogVcc1;
-	private int multiAnalogVcc2;
-	private int multiAnalogVcc3;
-	private int deviceStatus;
+	protected int analogInputVcc;
+	protected int reportId;
+	protected int number;
+	protected PositionRelatedHeader greenHeader;
+	protected double mileage;
+	protected String hourMeterCount;
+	protected int multiAnalogVcc1;
+	protected int multiAnalogVcc2;
+	protected int multiAnalogVcc3;
+	protected int digitalInput;
+	protected int digitalOutput;
 	
+	public Gtfri (){
+		
+	}
 
 	public Gtfri (final String asciiMessage){
 		
@@ -41,8 +45,8 @@ public final class Gtfri extends QueclinkReport {
 		multiAnalogVcc1 = tok.nextInt ();
 		multiAnalogVcc2 = tok.nextInt ();
 		multiAnalogVcc2 = tok.nextInt ();
-		tok.nextToken ();	//Reserved
-		tok.nextToken ();	//Reserved
+		digitalInput = tok.nextHex ();
+		digitalOutput = tok.nextHex ();
 		tok.nextToken ();	//Reserved
 		tok.nextToken ();	//Reserved
 		sendTime = toSeconds (tok.nextToken());
@@ -53,6 +57,10 @@ public final class Gtfri extends QueclinkReport {
 	public String encode() {
 		
 		ScopeReportType reportType = new ScopeReportType ("GTFRI");
+		
+		boolean ignitionOn = (digitalInput & 1) == 1;
+		boolean battery = false; //No disponible en el mensaje
+		int generalStatus = (ignitionOn ? 1 : 0) + (battery ? 2 : 0);
 		
 		EventHeader header = EventHeader
 				.newBuilder()
@@ -66,6 +74,9 @@ public final class Gtfri extends QueclinkReport {
 				.setTemplateId(reportType.getTemplateId())
 				.setUnitId(uniqueId)
 				.setUtcTimestampSeconds(greenHeader.getUtcTime())
+				.setInputStatus(digitalInput)
+				.setOutputStatus(digitalOutput)
+				.setGeneralStatus(generalStatus)
 				.build ();
 		
 		PeriodicPosition scopeEvent = PeriodicPosition
@@ -79,6 +90,11 @@ public final class Gtfri extends QueclinkReport {
 	@Override
 	public int getTemplateId() {
 		return ScopeEventCode.PeriodicPosition;
+	}
+	
+	@Override
+	public String toString (){
+		return new Gson ().toJson(this);
 	}
 	
 }

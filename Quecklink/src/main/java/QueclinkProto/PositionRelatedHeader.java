@@ -33,6 +33,23 @@ public class PositionRelatedHeader {
 		tok.nextToken(); //Reserved
 	}
 	
+	public void setFields (Tokenizer tok, boolean oneReservedField){
+		gpsAccuracy = tok.nextInt();
+		speed = tok.nextDouble();
+		azimuth = tok.nextInt();
+		altitude = tok.nextDouble();
+		longitude = tok.nextDouble();
+		latitude = tok.nextDouble();
+		utcTime = QueclinkReport.toSeconds(tok.nextToken());
+		mcc = tok.nextInt();
+		mnc = tok.nextInt();
+		lac = tok.nextHex();
+		cellId = tok.nextHex();
+		
+		if (oneReservedField)
+			tok.nextToken(); //Reserved
+	}
+	
 	public void setGpsAccuracy (int value) { gpsAccuracy = value; }
 	public void setSpeed (double value) { speed = value; }
 	public void setAzimuth (int value) { azimuth = value; }

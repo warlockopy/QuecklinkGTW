@@ -39,15 +39,31 @@ public class Gtigf extends QueclinkReport{
 		altitude = tok.nextDouble ();
 		longitude = tok.nextDouble ();
 		latitude = tok.nextDouble ();
-		utcTime = toSeconds (tok.nextToken ());
-		
+		utcTime = toSeconds (tok.nextToken ());	
 		mcc = tok.nextInt ();
 		mnc = tok.nextInt ();
 		lac = tok.nextHex ();
 		cellId = tok.nextHex ();
-		tok.nextToken (); //Reserved
-		hourMeterCount = tok.nextToken ();
-		mileage = tok.nextDouble ();	
+		
+		//Aquí puede o no haber un campo reservado (En el GV55 hay un campo reservado de más con respecto al GV200)
+		String tmp = tok.nextToken ();
+		
+		if (tmp.equals ("00")) //Si se lee "00" es un campo reservado
+			hourMeterCount = tok.nextToken ();
+		else
+			hourMeterCount = tmp; //De lo contrario el campo leído es hourMeterCount
+		
+		//El orden entre hourMeterCount y Mileage puede cambiar
+		tmp = tok.nextToken();
+		
+		//Decidir cuál cadena es HourMeterCount y cuál es Mileage
+		if (hourMeterCount.length () == 11 && hourMeterCount.charAt(5) == ':')
+			mileage = Double.parseDouble(tmp);
+		else{
+			mileage = Double.parseDouble(hourMeterCount);
+			hourMeterCount = tmp;
+		}
+			
 		sendTime = toSeconds (tok.nextToken ());
 		countNumber = tok.nextHex ();
 	}
