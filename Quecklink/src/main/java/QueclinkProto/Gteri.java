@@ -26,7 +26,7 @@ public class Gteri extends Gtfri {
 		hourMeterCount = tok.nextToken ();
 		multiAnalogVcc1 = tok.nextInt ();
 		multiAnalogVcc2 = tok.nextInt ();
-		multiAnalogVcc2 = tok.nextInt ();
+		multiAnalogVcc3 = tok.nextInt ();
 		digitalInput = tok.nextHex ();
 		digitalOutput = tok.nextHex ();
 		UARTDeviceType = tok.nextInt();

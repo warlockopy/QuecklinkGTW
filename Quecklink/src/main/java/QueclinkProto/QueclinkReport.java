@@ -44,21 +44,24 @@ public abstract class QueclinkReport {
 		return (int) (mileage * 1.0);
 	}
 	
-	public String getQueclinkVersion (final String code){
+	public String getQueclinkVersion (){
+		
+		String code = "??";
 		String ans = "Unknown";
 		
-		if (code.equals("02"))
-			ans = "GL200";
-		else if (code.equals("04"))
-			ans = "GV200";
-		else if (code.equals("06"))
-			ans = "GV300";
-		else if (code.equals("10"))
-			ans = "GV55 LITE";
-		else if (code.equals("0F"))
-			ans = "GV55";
-		else if (code.equals("1F"))
-			ans = "GV500";
+		if (protocolVersion.length() > 2)
+			code = protocolVersion.substring(0, 2);
+		
+		if (code.equals("02"))      ans = "GL200";
+		else if (code.equals("04")) ans = "GV200";
+		else if (code.equals("06")) ans = "GV300";
+		else if (code.equals("08")) ans = "GMT100";
+		else if (code.equals("0F")) ans = "GV55";
+		else if (code.equals("10")) ans = "GV55 LITE";
+		else if (code.equals("11")) ans = "GL500";
+		else if (code.equals("1A")) ans = "GL300";
+		else if (code.equals("1F")) ans = "GV500";
+		else    ans = "<Unknown code " + code + ">";
 		
 		return ans;
 	}

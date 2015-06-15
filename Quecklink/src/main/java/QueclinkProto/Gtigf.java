@@ -46,19 +46,19 @@ public class Gtigf extends QueclinkReport{
 		cellId = tok.nextHex ();
 		tok.nextToken (); //Reserved
 		
-		//Primero hourMeterCount y luego mileage en el GV55, al revés en el GV200
-		String version = protocolVersion.substring(0, 2);
-		System.out.println ("Model: " + getQueclinkVersion (version));
+		//Primero hourMeterCount y luego mileage en GV55, al revés en GV200,GMT100
+		String version = getQueclinkVersion ();
+		System.out.println ("Model: " + version);
 		
-		if (version.equals("02")){ //GV200
+		if (version.equals("GV200") || version.equals("GMT100")){
 			mileage = tok.nextDouble();
 			hourMeterCount = tok.nextToken();
 		}
-		else if (version.equals ("0F")){ //GV55
+		else if (version.equals ("GV55")){ //GV55
 			hourMeterCount = tok.nextToken();
 			mileage = tok.nextDouble();
 		}
-		else{ //Por ahora asumimos que este es el orden para otras versiones
+		else{ //Otras versiones
 			hourMeterCount = tok.nextToken();
 			mileage = tok.nextDouble();
 		}

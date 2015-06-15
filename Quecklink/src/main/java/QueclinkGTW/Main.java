@@ -1,5 +1,7 @@
 package QueclinkGTW;
 import java.util.Scanner;
+
+import QueclinkProto.Gtigf;
 import server.UdpServer;
 
 public class Main {
@@ -8,10 +10,12 @@ public class Main {
 		
 		Scanner sc = new Scanner (System.in);
 		
-		//String str = sc.next();
-		//Gtigf report = new Gtigf (str);
+		String str = sc.next();
+		Gtigf report = new Gtigf (str);
 		
-		//System.out.prin
+		System.out.println (report.encode());
+		
+		System.exit(0);
 		
 		UdpServer server = new UdpServer (5000); //Local port 5000
 		server.start();
