@@ -1,17 +1,21 @@
 package QueclinkProto;
 
+import java.util.ArrayList;
+
+import device.OneWireDevice;
+
 public class Gteri extends Gtfri {
 	
 	private int ERIMask;
 	private int UARTDeviceType;
 	private String digitFuelSensorData;
 	private int AC100DevicesNumber;
-	private String oneWireDeviceId;
-	private String oneWireDeviceType;
-	private String oneWireDeviceData;
+	
+	private ArrayList <OneWireDevice> devices;
 	
 	public Gteri (final String asciiMessage){
 		greenHeader = new PositionRelatedHeader ();
+		devices = new ArrayList ();
 		Tokenizer tok = new Tokenizer (asciiMessage);
 		
 		protocolVersion = tok.nextToken ();
@@ -31,10 +35,18 @@ public class Gteri extends Gtfri {
 		digitalOutput = tok.nextHex ();
 		UARTDeviceType = tok.nextInt();
 		digitFuelSensorData = tok.nextToken();
+		
+		//One wire devices
 		AC100DevicesNumber = tok.nextInt();
-		oneWireDeviceId = tok.nextToken();
-		oneWireDeviceType = tok.nextToken();
-		oneWireDeviceData = tok.nextToken();
+		
+		for (int k = 0; k < AC100DevicesNumber; ++k){
+			String oneWireDeviceId = tok.nextToken();
+			int oneWireDeviceType = tok.nextInt();
+			int oneWireDeviceData = tok.nextHex();
+			
+			devices.add (new OneWireDevice (oneWireDeviceId, oneWireDeviceType, oneWireDeviceData));
+		}
+		
 		sendTime = toSeconds (tok.nextToken());
 		countNumber = tok.nextHex ();
 	}
