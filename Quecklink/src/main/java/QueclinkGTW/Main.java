@@ -8,6 +8,11 @@ public class Main {
 		
 		Scanner sc = new Scanner (System.in);
 		
+		//String str = sc.next();
+		//Gtigf report = new Gtigf (str);
+		
+		//System.out.prin
+		
 		UdpServer server = new UdpServer (5000); //Local port 5000
 		server.start();
 		

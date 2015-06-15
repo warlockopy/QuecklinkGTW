@@ -43,4 +43,23 @@ public abstract class QueclinkReport {
 	public int toKm (double mileage){
 		return (int) (mileage * 1.0);
 	}
+	
+	public String getQueclinkVersion (final String code){
+		String ans = "Unknown";
+		
+		if (code.equals("02"))
+			ans = "GL200";
+		else if (code.equals("04"))
+			ans = "GV200";
+		else if (code.equals("06"))
+			ans = "GV300";
+		else if (code.equals("10"))
+			ans = "GV55 LITE";
+		else if (code.equals("0F"))
+			ans = "GV55";
+		else if (code.equals("1F"))
+			ans = "GV500";
+		
+		return ans;
+	}
 }
