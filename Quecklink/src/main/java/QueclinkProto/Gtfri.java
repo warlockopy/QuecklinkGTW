@@ -52,15 +52,15 @@ public class Gtfri extends QueclinkReport {
 		sendTime = toSeconds (tok.nextToken());
 		countNumber = tok.nextHex ();
 	}
+	
+	public int getGeneralStatus (){
+		return (digitalInput & 1);
+	}
 
 	@Override
 	public String encode() {
 		
 		ScopeReportType reportType = new ScopeReportType ("GTFRI");
-		
-		boolean ignitionOn = (digitalInput & 1) == 1;
-		boolean battery = false; //No disponible en el mensaje
-		int generalStatus = (ignitionOn ? 1 : 0) + (battery ? 2 : 0);
 		
 		EventHeader header = EventHeader
 				.newBuilder()
@@ -76,7 +76,7 @@ public class Gtfri extends QueclinkReport {
 				.setUtcTimestampSeconds(greenHeader.getUtcTime())
 				.setInputStatus(digitalInput)
 				.setOutputStatus(digitalOutput)
-				.setGeneralStatus(generalStatus)
+				.setGeneralStatus(getGeneralStatus ())
 				.build ();
 		
 		PeriodicPosition scopeEvent = PeriodicPosition

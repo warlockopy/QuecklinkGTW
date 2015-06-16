@@ -27,6 +27,7 @@ public class ReportBuilder {
 		else if (reportType.equals("GTMPN")) return new Gtmpn (messageData);
 		else if (reportType.equals("GTMPF")) return new Gtmpf (messageData);
 		else if (reportType.equals("GTIDN")) return new Gtidn (messageData);
+		else if (reportType.equals("GTERI")) return new Gteri (messageData);
 		else{
 			System.err.println ("Unknown report " + reportType);
 			return null;

@@ -2,12 +2,18 @@ package QueclinkProto;
 
 import java.util.ArrayList;
 
+import org.apache.commons.codec.binary.Base64;
+
+import ScopeProtoJava.EventHeaderProto.EventHeader;
+import ScopeProtoJava.PeriodicPositionProto.PeriodicPosition;
+import ScopeProtoJava.Temperature1NormalProto.Temperature1Normal;
+import ScopeProtoJava.Temperature2NormalProto.Temperature2Normal;
 import device.OneWireDevice;
 
 public class Gteri extends Gtfri {
 	
 	private int ERIMask;
-	private int UARTDeviceType;
+	private int UARTDeviceType; //0:None, 1:Digit fuel sensor, 2:AC100 1 wire bus.
 	private String digitFuelSensorData;
 	private int AC100DevicesNumber;
 	
@@ -34,20 +40,156 @@ public class Gteri extends Gtfri {
 		digitalInput = tok.nextHex ();
 		digitalOutput = tok.nextHex ();
 		UARTDeviceType = tok.nextInt();
-		digitFuelSensorData = tok.nextToken();
 		
-		//One wire devices
-		AC100DevicesNumber = tok.nextInt();
+		if ((ERIMask & 1) == 1) //If bit 0 of ERIMask is set
+			digitFuelSensorData = tok.nextToken();
 		
-		for (int k = 0; k < AC100DevicesNumber; ++k){
-			String oneWireDeviceId = tok.nextToken();
-			int oneWireDeviceType = tok.nextInt();
-			int oneWireDeviceData = tok.nextHex();
+		//One wire devices (bit1 of ERIMask)
+		if ((ERIMask & 2) == 2){
+		
+			AC100DevicesNumber = tok.nextInt();
+		
+			for (int k = 0; k < AC100DevicesNumber; ++k){
+				String oneWireDeviceId = tok.nextToken();
+				int oneWireDeviceType = tok.nextInt();
+				int oneWireDeviceData = tok.nextHex();
+				
+				if ((oneWireDeviceData & (1 << 15)) != 0)
+					oneWireDeviceData |= 0xFFFF0000;
 			
-			devices.add (new OneWireDevice (oneWireDeviceId, oneWireDeviceType, oneWireDeviceData));
+				devices.add (new OneWireDevice (oneWireDeviceId, oneWireDeviceType, oneWireDeviceData));
+			}
 		}
 		
 		sendTime = toSeconds (tok.nextToken());
 		countNumber = tok.nextHex ();
 	}
+	
+	@Override
+	public String encode (){
+		String ans = "";
+		
+		EventHeader periodicPositionHeader, temperature1NormalHeader, temperature2NormalHeader;
+		
+		//Periodic position
+		//********************
+		periodicPositionHeader = EventHeader
+				.newBuilder()
+				.setDescription("PeriodicPosition")
+				.setDirection(greenHeader.getAzimuth())
+				.setLatitude(greenHeader.getLatitude())
+				.setLongitude(greenHeader.getLongitude())
+				.setOdometer(toKm (mileage))
+				.setSource(8)
+				.setSpeed((int) greenHeader.getSpeed())
+				.setTemplateId(ScopeEventCode.PeriodicPosition)
+				.setUnitId(uniqueId)
+				.setUtcTimestampSeconds(greenHeader.getUtcTime())
+				.setInputStatus(digitalInput)
+				.setOutputStatus(digitalOutput)
+				.setGeneralStatus(getGeneralStatus ())
+				.build ();
+		
+		PeriodicPosition periodicPosition = PeriodicPosition
+			.newBuilder()
+			.setHeader(periodicPositionHeader)
+			.build();
+		
+		ans = Base64.encodeBase64String (periodicPosition.toByteArray ());
+		addTemplateId (ScopeEventCode.PeriodicPosition);
+		//********************
+		
+		//Temperature 1 Normal
+		//********************
+		if (devices.size() > 0){
+			temperature1NormalHeader = EventHeader
+					.newBuilder()
+					.setDescription("Temperature1Normal")
+					.setDirection(greenHeader.getAzimuth())
+					.setLatitude(greenHeader.getLatitude())
+					.setLongitude(greenHeader.getLongitude())
+					.setOdometer(toKm (mileage))
+					.setSource(8)
+					.setSpeed((int) greenHeader.getSpeed())
+					.setTemplateId(ScopeEventCode.Temperature1Normal)
+					.setUnitId(uniqueId)
+					.setUtcTimestampSeconds(greenHeader.getUtcTime())
+					.setInputStatus(digitalInput)
+					.setOutputStatus(digitalOutput)
+					.setGeneralStatus(getGeneralStatus ())
+					.build ();
+		
+			Temperature1Normal temperature1Normal = Temperature1Normal
+					.newBuilder()
+					.setHeader(periodicPositionHeader)
+					.setValueDegrees((int) Math.round(getTemperatureAt (0)))
+					.build();
+		
+			ans += " " + Base64.encodeBase64String (temperature1Normal.toByteArray ());
+			addTemplateId (ScopeEventCode.Temperature1Normal);
+		}
+		//********************
+		
+		//Temperature 2 Normal
+		//********************
+		if (devices.size() > 1){
+			temperature2NormalHeader = EventHeader
+					.newBuilder()
+					.setDescription("Temperature2Normal")
+					.setDirection(greenHeader.getAzimuth())
+					.setLatitude(greenHeader.getLatitude())
+					.setLongitude(greenHeader.getLongitude())
+					.setOdometer(toKm (mileage))
+					.setSource(8)
+					.setSpeed((int) greenHeader.getSpeed())
+					.setTemplateId(ScopeEventCode.Temperature2Normal)
+					.setUnitId(uniqueId)
+					.setUtcTimestampSeconds(greenHeader.getUtcTime())
+					.setInputStatus(digitalInput)
+					.setOutputStatus(digitalOutput)
+					.setGeneralStatus(getGeneralStatus ())
+					.build ();
+		
+			Temperature2Normal temperature2Normal = Temperature2Normal
+					.newBuilder()
+					.setHeader(periodicPositionHeader)
+					.setValueDegrees((int) Math.round(getTemperatureAt (0)))
+					.build();
+		
+			ans += " " + Base64.encodeBase64String (temperature2Normal.toByteArray ());
+			addTemplateId (ScopeEventCode.Temperature2Normal);
+		}
+		//********************
+		
+		return ans;
+	}
+	
+	private double getTemperatureAt (int index){
+		double ans = 0.0;
+		
+		if (index < devices.size())
+			ans = devices.get(index).getTemperatureCelsius();
+		
+		return ans;
+	}
+	
+	
+	@Override
+	public String toString (){
+		int n = AC100DevicesNumber;
+		String ans = null;
+		
+		if (n > 0){
+			ans = "Devices (" + n + "):\n********************************";
+			
+			for (OneWireDevice device : devices)
+				ans += "\n" + device + "\n********************************";
+		}
+		else
+			ans = "No devices.";
+		
+		return ans;
+	}
+	
+	
 }

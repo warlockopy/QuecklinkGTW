@@ -53,8 +53,17 @@ public class Gtign extends QueclinkReport{
 		lac = tok.nextHex ();
 		cellId = tok.nextHex ();
 		tok.nextToken (); //Reserved
-		hourMeterCount = tok.nextToken ();
-		mileage = tok.nextDouble ();
+		
+		//El orden relativo entre hourMeterCount y mileage depende del modelo
+		if (getQueclinkVersion () == "GV200"){ //posiblemente en el GMT100 este sea el orden también (verificar)
+			mileage = tok.nextDouble ();
+			hourMeterCount = tok.nextToken ();
+		}
+		else{ //<Verificar manual de otros modelos>
+			hourMeterCount = tok.nextToken ();
+			mileage = tok.nextDouble ();
+		}
+		
 		sendTime = toSeconds (tok.nextToken ());
 		countNumber = tok.nextHex ();
 	}

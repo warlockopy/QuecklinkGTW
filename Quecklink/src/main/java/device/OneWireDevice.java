@@ -3,7 +3,7 @@ package device;
 public class OneWireDevice {
 	
 	private String id;
-	private int type;
+	private int type; //1: Temperature sensor
 	private int data;
 	
 	public OneWireDevice (final String id, int type, int data){
@@ -22,5 +22,13 @@ public class OneWireDevice {
 	
 	public double getTemperatureCelsius (){
 		return data * 0.0625;
+	}
+	
+	@Override
+	public String toString (){
+		String ans = "ID: " + id + "\nType: " + type + "\nData: " + data;
+		ans += " (" + getTemperatureCelsius () + " °Celsius)";
+		
+		return ans;
 	}
 }

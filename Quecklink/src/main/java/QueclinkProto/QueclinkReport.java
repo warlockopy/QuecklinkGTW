@@ -2,6 +2,7 @@ package QueclinkProto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import ScopeProtoJava.EventHeaderProto.EventHeader;
@@ -9,7 +10,7 @@ import ScopeProtoJava.EventHeaderProto.EventHeader;
 public abstract class QueclinkReport {
 	
 	private static SimpleDateFormat format = new SimpleDateFormat ("yyyyMMddhhmmss");
-	
+	private ArrayList <Integer> templateIds;
 	protected String protocolVersion;
 	protected String uniqueId;
 	protected String deviceName;
@@ -35,6 +36,25 @@ public abstract class QueclinkReport {
 	}
 	
 	public abstract int getTemplateId ();
+	
+	//Se usa cuando se generan varios reportes Scope
+	//a partir de un reporte Queclink
+	public int getTemplateIdAt (int index){
+		
+		int ans = getTemplateId ();
+		
+		if (templateIds != null && index >= 0 && index < templateIds.size ())
+			ans = templateIds.get(index);
+		
+		return ans;
+	}
+	
+	public void addTemplateId (int id){
+		if (templateIds == null)
+			templateIds = new ArrayList ();
+		
+		templateIds.add(id);
+	}
 	
 	public String getUnitId (){
 		return uniqueId;
@@ -65,4 +85,5 @@ public abstract class QueclinkReport {
 		
 		return ans;
 	}
+
 }
