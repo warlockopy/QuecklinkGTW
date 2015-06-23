@@ -50,7 +50,7 @@ public class UdpServer extends Thread {
 					System.out.println ("Incoming report " + reportMessage + "\n");
 					
 					//Show IP address and port
-					System.out.println ("from IP " + incoming.getAddress() + " port " + incoming.getPort());
+					System.out.println ("from IP " + incoming.getAddress() + " port " + incoming.getPort() + "\n");
 					
 					QueclinkReport report = ReportBuilder.buildReport (reportMessage);
 					

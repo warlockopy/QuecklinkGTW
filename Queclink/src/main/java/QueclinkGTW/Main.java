@@ -13,23 +13,6 @@ public class Main {
 		
 		Scanner sc = new Scanner (System.in);
 		
-		
-		/*
-		ArrayList <String> reports = new ArrayList ();
-		String s;
-		
-		while ((s = sc.next ()).equals("end") == false){
-			reports.add(s);
-		}
-		
-		String scope = Converter.queclinkToScope(reports);
-		
-		echo (scope);
-		
-		
-		System.exit(0);
-		//*/
-		
 		UdpServer server = new UdpServer (5000); //Local port 5000
 		server.start();
 		

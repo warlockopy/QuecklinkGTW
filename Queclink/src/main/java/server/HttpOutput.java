@@ -18,4 +18,9 @@ public class HttpOutput {
 		return output;
 	}
 	
+	@Override
+	public String toString (){
+		return code + " " + output;
+	}
+	
 }

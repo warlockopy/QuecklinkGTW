@@ -52,9 +52,6 @@ public class HttpRest {
 		StringEntity input = new StringEntity(datoJson);
 		input.setContentType("application/json");
 		post.setEntity(input);
-		int httperr;
-		String ans = "";
-		
 		
 		CloseableHttpResponse response = httpclient.execute(post);
 		
@@ -64,17 +61,18 @@ public class HttpRest {
 			System.out.print(" " + httpCode);
 			System.out.println(" " + response.getStatusLine().getReasonPhrase());
 			
-			BufferedReader br = new BufferedReader(
-				new InputStreamReader((response.getEntity().getContent())));
+			BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
 
+			System.out.println("\nOutput from Server...\n");
+			
+			String line;
+			
+			while ((line = br.readLine()) != null){
+				output = line;
+				System.out.println(output);
+			}
 				
-				System.out.println("\nOutput from Server...\n");
-				
-				while ((output = br.readLine()) != null){
-					System.out.println(output);
-				}
-				
-				System.out.println ();
+			System.out.println ();
 			
 		} finally {
 			response.close();
