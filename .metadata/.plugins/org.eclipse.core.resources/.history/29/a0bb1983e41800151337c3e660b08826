@@ -1,0 +1,56 @@
+package mysql2websrvc;
+
+import java.io.*;
+import java.util.Scanner;
+import com.google.gson.Gson;
+
+
+public class helloworld {
+	
+	static Gson gson = new Gson ();
+	
+	//*
+	public static void main (String [] args) throws IOException
+	{
+		Scanner sc = new Scanner (System.in);
+		
+		for (int i = 1; i <= 5; ++i){
+			String msg = sc.nextLine ();
+			String id = Process.getMobileIdFrom(msg);
+			Process.saveString(msg, id);
+		
+			echo (id);
+		}
+		
+		System.exit(0);
+		
+		Process process = new Process ();
+		
+		try{
+			ReadJsonfromMysql.open();
+			System.out.println("SQL Opened.");
+			System.out.println("Comienza Hilo...");
+			process.start();
+			
+			while (!sc.next ().equals ("exit"));
+			
+			process.interrupt();
+			ReadJsonfromMysql.close();
+			sc.close ();
+			System.exit(0);
+		}
+		catch (Exception e)
+		{
+			e.getStackTrace();
+			e.printStackTrace();
+		}
+			
+	}
+	
+	//*/
+	
+	public static void echo (Object obj){
+		System.out.println (obj);
+	}
+	
+}

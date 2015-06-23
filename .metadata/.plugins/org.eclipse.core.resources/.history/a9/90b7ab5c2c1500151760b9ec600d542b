@@ -1,0 +1,48 @@
+package mainPackage;
+
+import java.util.ArrayList;
+
+import place.Place;
+import place.PlaceReader;
+
+public class Main {
+	public static void main (String [] args) throws Exception {
+		
+		String fileName = "target/lagaleria.csv";
+		String message = "";
+		
+		//ScopeAPI.DeletePLaceGroup("c477aea7-83ca-4cdb-ae67-bdc9d081ec0e","administradoraguassanas","admin2015");
+		int cnt = 0;
+		
+		
+		PlaceReader reader = new PlaceReader ();
+		ArrayList <Place> places = reader.readPlaces(fileName);
+		
+		if (places.size () > 0){
+			//places.get (0).addPlaceGroup("Grupo AguaSanas", "2015-05-29T12:15:37");
+			//places.get (0).addPlaceGroup(null, null);
+			
+			for (Place place : places){
+				place.addPlaceGroup(null, null, "696cc1ad-245d-4715-bdd9-d131e9c971ef");
+				message = place.toJson ();
+				++cnt;
+				echo (message);
+				
+				HttpsClient.httpsClientAddPlaces ("administradoraguassanas", "admin2015", message);
+				echo ("Contador de mensajes: " + cnt);
+			}
+			
+			//String message = places.get (0).toJson ();
+			//echo (message);
+			
+			//HttpsClient.httpsClientAddPlaces (message);
+			echo (cnt + " mensajes");
+		}
+		
+	}
+	
+	
+	public static void echo (Object obj){
+		System.out.println (obj);
+	}
+}
