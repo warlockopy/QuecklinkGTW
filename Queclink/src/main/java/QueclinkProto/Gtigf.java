@@ -5,6 +5,10 @@ package QueclinkProto;
 
 import org.apache.commons.codec.binary.Base64;
 
+import conversion.ScopeEventCode;
+import conversion.ScopeReportType;
+import utilities.Tokenizer;
+import utilities.TripWorkAround;
 import ScopeProtoJava.EngineStopProto.EngineStop;
 import ScopeProtoJava.EventHeaderProto.EventHeader;
 import ScopeProtoJava.TripShutdownProto.TripShutdown;

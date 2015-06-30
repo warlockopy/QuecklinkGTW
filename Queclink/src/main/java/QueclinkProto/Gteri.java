@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import org.apache.commons.codec.binary.Base64;
 
+import utilities.Tokenizer;
+
 import com.google.gson.Gson;
 
+import conversion.ScopeEventCode;
 import ScopeProtoJava.EventHeaderProto.EventHeader;
 import ScopeProtoJava.PeriodicPositionProto.PeriodicPosition;
 import ScopeProtoJava.Temperature1NormalProto.Temperature1Normal;

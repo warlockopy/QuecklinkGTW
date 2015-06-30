@@ -1,6 +1,7 @@
 package server;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -9,8 +10,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import utilities.Tokenizer;
+
 import com.google.gson.Gson;
 
+import conversion.QueclinkToScope;
+import conversion.ReportBuilder;
 import QueclinkProto.*;
 import ScopeProtoJava.ResponsePrototype;
 
@@ -98,6 +103,7 @@ public class UdpServer extends Thread {
 			String toSave = reports.get(i);
 			String scopeString = "";
 			String serverString = "";
+			String mobileId = getMobileIdFrom (toSave);
 			
 			if (sent.get (i)){
 				scopeString = scope.getJsonMessageAt (responseIndex);
@@ -111,18 +117,26 @@ public class UdpServer extends Thread {
 			else
 				toSave += "\n--------\n" + "Invalid report" + "\n";
 			
-			saveString (toSave);
+			saveString (toSave, mobileId);
 		}
 	}
 	
-	private static void saveString (final String string){
+	private static void saveString (final String string, final String mobileId){
 		
 		DateFormat format = new SimpleDateFormat ("yyyy_MM_dd");
 		String dateString = format.format (new Date ());
-		String fileName = "EVENTS_" + dateString + ".txt";
+		String dir = "EVENTS/EVENTS_" + dateString;
+		String fileName = mobileId + ".txt";
+		
+		File directory = new File (dir);
+		String path = directory.getAbsolutePath() + "/" + fileName;
+		
+		if (!directory.exists())
+			if (directory.mkdir() == false)
+				System.out.println ("Error. No se pudo crear el directorio " + directory.getAbsolutePath());
 		
 		try {
-			FileWriter fWriter = new FileWriter (fileName, true);
+			FileWriter fWriter = new FileWriter (dir + "/" + fileName, true);
 			BufferedWriter writer = new BufferedWriter (fWriter);
 			
 			writer.write(string);
@@ -149,5 +163,21 @@ public class UdpServer extends Thread {
 		}
 		
 		return ans;
+	}
+	
+	public static String getMobileIdFrom (final String queclinkString){
+		
+		String ans = "0";
+		
+		Tokenizer tok = new Tokenizer (queclinkString);
+		
+		if (tok.countTokens() >= 3){
+			tok.nextToken(); //+RESP:GTXXX
+			tok.nextToken(); //Protocol version
+			ans = tok.nextToken(); //uniqueId
+		}
+		
+		return ans;
+		
 	}
 }

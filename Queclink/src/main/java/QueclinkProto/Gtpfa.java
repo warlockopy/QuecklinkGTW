@@ -4,6 +4,9 @@ package QueclinkProto;
 
 import org.apache.commons.codec.binary.Base64;
 
+import conversion.ScopeEventCode;
+import conversion.ScopeReportType;
+import utilities.Tokenizer;
 import ScopeProtoJava.EventHeaderProto.EventHeader;
 import ScopeProtoJava.MainPowerLowProto.MainPowerLow;
 

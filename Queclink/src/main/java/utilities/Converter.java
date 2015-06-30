@@ -2,9 +2,9 @@ package utilities;
 
 import java.util.ArrayList;
 
+import conversion.QueclinkToScope;
+import conversion.ReportBuilder;
 import QueclinkProto.QueclinkReport;
-import QueclinkProto.QueclinkToScope;
-import QueclinkProto.ReportBuilder;
 
 public class Converter {
 	

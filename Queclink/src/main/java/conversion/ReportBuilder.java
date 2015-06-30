@@ -1,4 +1,13 @@
-package QueclinkProto;
+package conversion;
+
+import QueclinkProto.Gteri;
+import QueclinkProto.Gtfri;
+import QueclinkProto.Gtidn;
+import QueclinkProto.Gtigf;
+import QueclinkProto.Gtign;
+import QueclinkProto.Gtmpf;
+import QueclinkProto.Gtmpn;
+import QueclinkProto.QueclinkReport;
 
 public class ReportBuilder {
 	public static QueclinkReport buildReport (final String receivedMessage){

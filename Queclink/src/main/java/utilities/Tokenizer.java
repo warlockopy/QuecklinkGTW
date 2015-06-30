@@ -1,4 +1,4 @@
-package QueclinkProto;
+package utilities;
 
 public class Tokenizer {
 	

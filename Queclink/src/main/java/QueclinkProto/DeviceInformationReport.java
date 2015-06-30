@@ -12,6 +12,8 @@
 
 package QueclinkProto;
 
+import utilities.Tokenizer;
+
 public abstract class DeviceInformationReport extends QueclinkReport {
 	
 	private int state;

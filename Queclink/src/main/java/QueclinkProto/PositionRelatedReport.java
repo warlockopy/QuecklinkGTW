@@ -13,6 +13,8 @@
 
 package QueclinkProto;
 
+import utilities.Tokenizer;
+
 import com.google.protobuf.AbstractMessage.Builder;
 
 import ScopeProtoJava.EventHeaderProto.EventHeader;

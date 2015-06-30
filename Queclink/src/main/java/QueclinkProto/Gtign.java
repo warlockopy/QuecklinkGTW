@@ -11,8 +11,13 @@ import java.io.PrintWriter;
 
 import org.apache.commons.codec.binary.Base64;
 
+import utilities.Tokenizer;
+import utilities.TripWorkAround;
+
 import com.google.gson.Gson;
 
+import conversion.ScopeEventCode;
+import conversion.ScopeReportType;
 import ScopeProtoJava.EngineStartProto.EngineStart;
 import ScopeProtoJava.EventHeaderProto.EventHeader;
 import ScopeProtoJava.TripStartupProto.TripStartup;

@@ -1,5 +1,7 @@
 package QueclinkProto;
 
+import utilities.Tokenizer;
+
 public class Gtmai extends QueclinkReport {
 	
 	private int analogInputVcc;

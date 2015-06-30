@@ -1,4 +1,4 @@
-package QueclinkProto;
+package conversion;
 
 // Aqui tambien hay cambios para forzar el trip start up.
 public class ScopeReportType {

@@ -18,6 +18,7 @@ public abstract class QueclinkReport {
 	protected int countNumber;
 	
 	public final double MILE2KM = 1.609344;
+	private static final long timeAdjust = -4 * 3600;
 	
 	public abstract String encode ();
 	
@@ -27,7 +28,7 @@ public abstract class QueclinkReport {
 		
 		try {
 			date = format.parse(utcTime);
-			seconds = date.getTime() / 1000;
+			seconds = date.getTime() / 1000 + timeAdjust;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

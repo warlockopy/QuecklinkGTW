@@ -5,8 +5,12 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.codec.binary.Base64;
 
+import utilities.Tokenizer;
+
 import com.google.gson.Gson;
 
+import conversion.ScopeEventCode;
+import conversion.ScopeReportType;
 import ScopeProtoJava.EventHeaderProto.EventHeader;
 import ScopeProtoJava.PeriodicPositionProto.PeriodicPosition;
 

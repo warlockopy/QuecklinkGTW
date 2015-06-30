@@ -2,6 +2,9 @@
 
 package QueclinkProto;
 
+import conversion.ScopeEventCode;
+import utilities.Tokenizer;
+
 
 public class Gtidf extends QueclinkReport {
 	

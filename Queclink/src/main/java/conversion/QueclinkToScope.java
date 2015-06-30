@@ -1,10 +1,11 @@
-package QueclinkProto;
+package conversion;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import com.google.gson.Gson;
 
+import QueclinkProto.QueclinkReport;
 import ScopeProtoJava.MessagesPostPrototype;
 import ScopeProtoJava.ResponsePrototype;
 

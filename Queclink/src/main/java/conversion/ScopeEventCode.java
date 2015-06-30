@@ -1,4 +1,4 @@
-package QueclinkProto;
+package conversion;
 
 public class ScopeEventCode {
 		
