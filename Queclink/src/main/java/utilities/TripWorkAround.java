@@ -133,12 +133,6 @@ public class TripWorkAround {
 		
 		return Integer.parseInt(linea);
 	};
-	/*public static int ActualizarTripfile(String archivo, double millas, long tiempoutc){
-		int valor;
-		valor = LeerTripfile(archivo, millas, tiempoutc);
-		EscribirTripfile(archivo,++valor, millas,ti);
-		return valor;
-	};*/
 	
 	public static boolean fileExists (String archivo){
 		File f = new File(archivo);

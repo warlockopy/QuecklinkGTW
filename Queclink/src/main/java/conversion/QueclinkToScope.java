@@ -3,11 +3,11 @@ package conversion;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import com.google.gson.Gson;
+import queclinkProto.QueclinkReport;
+import scopeProto.MessagesPostPrototype;
+import scopeProto.ResponsePrototype;
 
-import QueclinkProto.QueclinkReport;
-import ScopeProtoJava.MessagesPostPrototype;
-import ScopeProtoJava.ResponsePrototype;
+import com.google.gson.Gson;
 
 public class QueclinkToScope {
 	

@@ -10,14 +10,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import queclinkProto.*;
+import scopeProto.ResponsePrototype;
 import utilities.Tokenizer;
 
 import com.google.gson.Gson;
 
 import conversion.QueclinkToScope;
 import conversion.ReportBuilder;
-import QueclinkProto.*;
-import ScopeProtoJava.ResponsePrototype;
 
 public class UdpServer extends Thread {
 	
