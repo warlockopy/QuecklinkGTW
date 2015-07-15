@@ -78,6 +78,7 @@ public class Gteri extends Gtfri {
 		EventHeader periodicPositionHeader, temperature1NormalHeader, temperature2NormalHeader;
 		
 		//Periodic position
+		
 		//********************
 		periodicPositionHeader = EventHeader
 				.newBuilder()
