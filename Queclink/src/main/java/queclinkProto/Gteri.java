@@ -159,7 +159,7 @@ public class Gteri extends Gtfri {
 			Temperature2Normal temperature2Normal = Temperature2Normal
 					.newBuilder()
 					.setHeader(temperature2NormalHeader)
-					.setValueDegrees((int) Math.round(getTemperatureAt (0)))
+					.setValueDegrees((int) Math.round(getTemperatureAt (1)))
 					.build();
 		
 			ans += " " + Base64.encodeBase64String (temperature2Normal.toByteArray ());
