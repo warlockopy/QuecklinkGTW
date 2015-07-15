@@ -42,7 +42,7 @@
   			<configuration>
   				<archive>
   					<manifest>
-  						<mainClass>QueclinkGTW.Main</mainClass>
+  						<mainClass>main.Main</mainClass>
   					</manifest>
   				</archive>
   				<descriptorRefs>
