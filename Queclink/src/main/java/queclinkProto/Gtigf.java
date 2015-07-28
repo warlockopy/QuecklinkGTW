@@ -82,7 +82,8 @@ public class Gtigf extends QueclinkReport{
 				.setDirection(heading)
 				.setLatitude(latitude)
 				.setLongitude(longitude)
-				.setOdometer(toKm (mileage))
+				//.setOdometer(toKm (mileage))
+				.setOdometer(trip.getTripDistanceMeters() )
 				.setSource(8)
 				.setSpeed((int) speed)
 				.setTemplateId(scope.getTemplateId ())
@@ -103,6 +104,13 @@ public class Gtigf extends QueclinkReport{
 				.setTripDurationSeconds(trip.getDurationSeconds ())
 				.setTripId(trip.getTripId())
 				.build();
+		
+		//****
+		System.out.println ("****************\nFin de viaje:");
+		System.out.println ("Distancia del viaje: " + trip.getTripDistanceMeters() + " m.");
+		System.out.println ("Odómetro: " + mileage + " km.");
+		System.out.println ("****************");
+		//****
 				
 		return Base64.encodeBase64String (scopeEvent.toByteArray());
 	}

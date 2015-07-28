@@ -6,6 +6,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import scopeProto.EventHeaderProto.EventHeader;
 import scopeProto.PeriodicPositionProto.PeriodicPosition;
+import scopeProto.PeriodicTemperatureProto.PeriodicTemperature;
 import scopeProto.Temperature1NormalProto.Temperature1Normal;
 import scopeProto.Temperature2NormalProto.Temperature2Normal;
 import utilities.Tokenizer;
@@ -76,9 +77,9 @@ public class Gteri extends Gtfri {
 		String ans = "";
 		
 		EventHeader periodicPositionHeader, temperature1NormalHeader, temperature2NormalHeader;
+		EventHeader periodicTemperatureHeader;
 		
 		//Periodic position
-		
 		//********************
 		periodicPositionHeader = EventHeader
 				.newBuilder()
@@ -106,6 +107,7 @@ public class Gteri extends Gtfri {
 		addTemplateId (ScopeEventCode.PeriodicPosition);
 		//********************
 		
+		/*
 		//Temperature 1 Normal
 		//********************
 		if (devices.size() > 0){
@@ -167,6 +169,76 @@ public class Gteri extends Gtfri {
 			addTemplateId (ScopeEventCode.Temperature2Normal);
 		}
 		//********************
+		*/
+		
+		//Periodic Temperature (up to 4 sensors)
+		//**************************************
+		if (devices.size() > 0){
+			periodicTemperatureHeader = EventHeader
+					.newBuilder()
+					.setDescription("PeriodicTemperature")
+					.setDirection(greenHeader.getAzimuth())
+					.setLatitude(greenHeader.getLatitude())
+					.setLongitude(greenHeader.getLongitude())
+					.setOdometer(toKm (mileage))
+					.setSource(8)
+					.setSpeed((int) greenHeader.getSpeed())
+					.setTemplateId(ScopeEventCode.Temperature2Normal)
+					.setUnitId(uniqueId)
+					.setUtcTimestampSeconds(greenHeader.getUtcTime())
+					.setInputStatus(digitalInput)
+					.setOutputStatus(digitalOutput)
+					.setGeneralStatus(getGeneralStatus ())
+					.build ();
+				
+			PeriodicTemperature periodicTemperature = null;
+			
+			if (devices.size () == 1){ // 1 sensor
+				periodicTemperature = PeriodicTemperature
+						.newBuilder ()
+						.setHeader(periodicTemperatureHeader)
+						.setSensor1((int) Math.round(getTemperatureAt (0)))
+						.setSensor1Valid(true)
+						.build ();
+			} else if (devices.size () == 2){ // 2 sensors
+				periodicTemperature = PeriodicTemperature
+						.newBuilder ()
+						.setHeader(periodicTemperatureHeader)
+						.setSensor1((int) Math.round(getTemperatureAt (0)))
+						.setSensor1Valid(true)
+						.setSensor2((int) Math.round(getTemperatureAt (1)))
+						.setSensor2Valid(true)
+						.build ();
+			} else if (devices.size () == 3){ // 3 sensors
+				periodicTemperature = PeriodicTemperature
+						.newBuilder ()
+						.setHeader(periodicTemperatureHeader)
+						.setSensor1((int) Math.round(getTemperatureAt (0)))
+						.setSensor1Valid(true)
+						.setSensor2((int) Math.round(getTemperatureAt (1)))
+						.setSensor2Valid(true)
+						.setSensor3((int) Math.round(getTemperatureAt (2)))
+						.setSensor3Valid(true)
+						.build ();
+			} else {// 4 or more sensors
+				periodicTemperature = PeriodicTemperature
+						.newBuilder ()
+						.setHeader(periodicTemperatureHeader)
+						.setSensor1((int) Math.round(getTemperatureAt (0)))
+						.setSensor1Valid(true)
+						.setSensor2((int) Math.round(getTemperatureAt (1)))
+						.setSensor2Valid(true)
+						.setSensor3((int) Math.round(getTemperatureAt (3)))
+						.setSensor3Valid(true)
+						.setSensor4((int) Math.round(getTemperatureAt (3)))
+						.setSensor4Valid(true)
+						.build ();
+			}
+				
+			ans += " " + Base64.encodeBase64String (periodicTemperature.toByteArray ());
+			addTemplateId (ScopeEventCode.PeriodicTemperature);
+		}
+		//************************************
 		
 		return ans;
 	}
