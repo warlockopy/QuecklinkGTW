@@ -83,7 +83,7 @@ public class Gtigf extends QueclinkReport{
 				.setLatitude(latitude)
 				.setLongitude(longitude)
 				//.setOdometer(toKm (mileage))
-				.setOdometer(trip.getTripDistanceMeters() )
+				.setOdometer(toKm (mileage))
 				.setSource(8)
 				.setSpeed((int) speed)
 				.setTemplateId(scope.getTemplateId ())
