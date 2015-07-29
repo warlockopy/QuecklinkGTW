@@ -10,6 +10,8 @@ public class Main {
 		
 		Scanner sc = new Scanner (System.in);
 		
+		System.out.println ("Periodic Temperature");
+		
 		UdpServer server = new UdpServer (5000); //Local port 5000
 		server.start();
 		
