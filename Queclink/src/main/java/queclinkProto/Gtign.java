@@ -59,8 +59,10 @@ public class Gtign extends QueclinkReport{
 		cellId = tok.nextHex ();
 		tok.nextToken (); //Reserved
 		
+		final String model = getQueclinkVersion ();
+		
 		//El orden relativo entre hourMeterCount y mileage depende del modelo
-		if (getQueclinkVersion () == "GV200"){ //posiblemente en el GMT100 este sea el orden también (verificar)
+		if (model == "GV200" || model == "GMT100"){
 			mileage = tok.nextDouble ();
 			hourMeterCount = tok.nextToken ();
 		}
