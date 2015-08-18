@@ -228,7 +228,7 @@ public class Gteri extends Gtfri {
 						.setSensor1Valid(true)
 						.setSensor2((int) Math.round(getTemperatureAt (1)))
 						.setSensor2Valid(true)
-						.setSensor3((int) Math.round(getTemperatureAt (3)))
+						.setSensor3((int) Math.round(getTemperatureAt (2)))
 						.setSensor3Valid(true)
 						.setSensor4((int) Math.round(getTemperatureAt (3)))
 						.setSensor4Valid(true)
