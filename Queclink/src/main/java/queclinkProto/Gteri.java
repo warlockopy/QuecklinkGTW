@@ -183,7 +183,7 @@ public class Gteri extends Gtfri {
 					.setOdometer(toKm (mileage))
 					.setSource(8)
 					.setSpeed((int) greenHeader.getSpeed())
-					.setTemplateId(ScopeEventCode.Temperature2Normal)
+					.setTemplateId(ScopeEventCode.PeriodicTemperature)
 					.setUnitId(uniqueId)
 					.setUtcTimestampSeconds(greenHeader.getUtcTime())
 					.setInputStatus(digitalInput)
