@@ -47,11 +47,12 @@ public abstract class QueclinkReport {
 		else if (templateIds != null){
 			System.out.println ("Llamada a getTemplateId(" + index + "). El tamaño es " + templateIds.size ());
 		}
+		else System.out.println ("TemplateIds es null");
 		
 		return ans;
 	}
 	
-	public void addTemplateId (int id){
+	public void addTemplateId (int id){	
 		templateIds.add(id);
 	}
 	
