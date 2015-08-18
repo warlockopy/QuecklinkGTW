@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,6 +17,7 @@ import utilities.Tokenizer;
 
 import com.google.gson.Gson;
 
+import commands.Command;
 import conversion.QueclinkToScope;
 import conversion.ReportBuilder;
 
@@ -23,13 +25,14 @@ public class UdpServer extends Thread {
 	
 	static final int bufferSize = 65536;
 	private int localPortNumber;
+	private DatagramSocket sock = null;
 	
 	public UdpServer (int localPortNumber){
 		this.localPortNumber = localPortNumber;
 	}
 	
 	public void run (){
-		DatagramSocket sock = null;
+		
 		
 		try{
 			sock = new DatagramSocket (localPortNumber);
@@ -42,10 +45,25 @@ public class UdpServer extends Thread {
 				
 				sock.receive(incoming);
 				byte [] data = incoming.getData ();
+				InetAddress ipAddress = incoming.getAddress();
+				int port = incoming.getPort();
+				
+				
+				
+				
 				String incomingMessage = new String (data, 0, incoming.getLength ());
+				String mobileId = getMobileIdFrom (incomingMessage);
+				
+				//Buscando a 861074023738019, 861074023748299, 861074023754602
+				if (mobileId.equals("861074023738019") || mobileId.equals("861074023748299")
+						|| mobileId.equals("861074023754602")){
+					sendMessage ("AT+GTAIS=gv200,1,250,15000,2,1,0,0,0,0,1,,,,FFFF$",
+							mobileId, ipAddress, port);
+				}
+				//Fin
+				
 				StringTokenizer tok = new StringTokenizer (incomingMessage);
 				ArrayList <QueclinkReport> qlReports = new ArrayList ();
-				
 				ArrayList <Boolean> valid = new ArrayList ();
 				ArrayList <String> allReports = new ArrayList ();
 				
@@ -91,6 +109,33 @@ public class UdpServer extends Thread {
 		catch (IOException e){
 			System.err.println("IOException " + e);
 		}
+	}
+	
+	private void sendMessage (final String message, final String mobileId, final InetAddress ipAddress, int port){
+		Command command = new Command (message, mobileId);
+		DatagramPacket sendPacket;
+		byte [] sendData = command.getMessage().getBytes ();
+		sendPacket = new DatagramPacket (sendData, sendData.length, ipAddress, port);
+		
+		try {
+			sock.send (sendPacket);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Guardar
+		FileWriter fWriter;
+		try {
+			fWriter = new FileWriter ("MENSAJES/MensajesEnviados.txt", true);
+			BufferedWriter writer = new BufferedWriter (fWriter);
+			writer.write(mobileId + " " + message + "\n");
+			writer.close ();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void saveReports (ArrayList <String> reports, ArrayList <Boolean> sent, ResponsePrototype scope,
