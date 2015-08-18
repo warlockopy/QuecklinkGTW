@@ -112,6 +112,7 @@ public class UdpServer extends Thread {
 	}
 	
 	private void sendMessage (final String message, final String mobileId, final InetAddress ipAddress, int port){
+		
 		Command command = new Command (message, mobileId);
 		DatagramPacket sendPacket;
 		byte [] sendData = command.getMessage().getBytes ();
@@ -119,6 +120,7 @@ public class UdpServer extends Thread {
 		
 		try {
 			sock.send (sendPacket);
+			System.out.println ("--Message sent to " + mobileId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
