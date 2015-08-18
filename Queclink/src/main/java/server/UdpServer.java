@@ -48,19 +48,8 @@ public class UdpServer extends Thread {
 				InetAddress ipAddress = incoming.getAddress();
 				int port = incoming.getPort();
 				
-				
-				
-				
 				String incomingMessage = new String (data, 0, incoming.getLength ());
 				String mobileId = getMobileIdFrom (incomingMessage);
-				
-				//Buscando a 861074023738019, 861074023748299, 861074023754602
-				if (mobileId.equals("861074023738019") || mobileId.equals("861074023748299")
-						|| mobileId.equals("861074023754602")){
-					sendMessage ("AT+GTAIS=gv200,1,250,15000,2,1,0,0,0,0,1,,,,FFFF$",
-							mobileId, ipAddress, port);
-				}
-				//Fin
 				
 				StringTokenizer tok = new StringTokenizer (incomingMessage);
 				ArrayList <QueclinkReport> qlReports = new ArrayList ();
