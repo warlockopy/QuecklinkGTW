@@ -33,7 +33,6 @@ public class UdpServer extends Thread {
 	
 	public void run (){
 		
-		
 		try{
 			sock = new DatagramSocket (localPortNumber);
 			byte [] buffer = new byte [bufferSize];
@@ -62,7 +61,7 @@ public class UdpServer extends Thread {
 					System.out.println ("Incoming report " + reportMessage + "\n");
 					
 					//Show IP address and port
-					System.out.println ("from IP " + incoming.getAddress() + " port " + incoming.getPort() + "\n");
+					//System.out.println ("from IP " + incoming.getAddress() + " port " + incoming.getPort() + "\n");
 					
 					QueclinkReport report = ReportBuilder.buildReport (reportMessage);
 					
@@ -71,7 +70,7 @@ public class UdpServer extends Thread {
 						valid.add(true);
 					}
 					else{
-						System.out.println ("Invalid report\n");
+						//System.out.println ("Invalid report\n");
 						valid.add (false);
 					}
 						
@@ -118,7 +117,7 @@ public class UdpServer extends Thread {
 		//Guardar
 		FileWriter fWriter;
 		try {
-			fWriter = new FileWriter ("MENSAJES/MensajesEnviados.txt", true);
+			fWriter = new FileWriter ("MENSAJES/MensajesEnviados.txt", false); //false para Sobreescribir
 			BufferedWriter writer = new BufferedWriter (fWriter);
 			writer.write(mobileId + " " + message + "\n");
 			writer.close ();

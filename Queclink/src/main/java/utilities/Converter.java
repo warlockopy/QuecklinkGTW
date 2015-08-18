@@ -25,4 +25,10 @@ public class Converter {
 		return ans;
 	}
 	
+	public static String convertSingleQReport (final String qReport){
+		ArrayList <String> qReports = new ArrayList ();
+		qReports.add (qReport);
+		
+		return queclinkToScope (qReports);
+	}
 }
