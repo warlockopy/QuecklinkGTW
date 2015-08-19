@@ -76,7 +76,7 @@ public class Gteri extends Gtfri {
 	public String encode (){
 		String ans = "";
 		
-		EventHeader periodicPositionHeader, temperature1NormalHeader, temperature2NormalHeader;
+		EventHeader periodicPositionHeader;
 		EventHeader periodicTemperatureHeader;
 		
 		//Periodic position
@@ -134,40 +134,40 @@ public class Gteri extends Gtfri {
 						.newBuilder ()
 						.setHeader(periodicTemperatureHeader)
 						.setSensor1((int) Math.round(getTemperatureAt (0)))
-						.setSensor1Valid(true)
+						//.setSensor1Valid(true)
 						.build ();
 			} else if (devices.size () == 2){ // 2 sensors
 				periodicTemperature = PeriodicTemperature
 						.newBuilder ()
 						.setHeader(periodicTemperatureHeader)
 						.setSensor1((int) Math.round(getTemperatureAt (0)))
-						.setSensor1Valid(true)
+						//.setSensor1Valid(true)
 						.setSensor2((int) Math.round(getTemperatureAt (1)))
-						.setSensor2Valid(true)
+						//.setSensor2Valid(true)
 						.build ();
 			} else if (devices.size () == 3){ // 3 sensors
 				periodicTemperature = PeriodicTemperature
 						.newBuilder ()
 						.setHeader(periodicTemperatureHeader)
 						.setSensor1((int) Math.round(getTemperatureAt (0)))
-						.setSensor1Valid(true)
+						//.setSensor1Valid(true)
 						.setSensor2((int) Math.round(getTemperatureAt (1)))
-						.setSensor2Valid(true)
+						//.setSensor2Valid(true)
 						.setSensor3((int) Math.round(getTemperatureAt (2)))
-						.setSensor3Valid(true)
+						//.setSensor3Valid(true)
 						.build ();
 			} else {// 4 or more sensors
 				periodicTemperature = PeriodicTemperature
 						.newBuilder ()
 						.setHeader(periodicTemperatureHeader)
 						.setSensor1((int) Math.round(getTemperatureAt (0)))
-						.setSensor1Valid(true)
+						//.setSensor1Valid(true)
 						.setSensor2((int) Math.round(getTemperatureAt (1)))
-						.setSensor2Valid(true)
+						//.setSensor2Valid(true)
 						.setSensor3((int) Math.round(getTemperatureAt (2)))
-						.setSensor3Valid(true)
+						//.setSensor3Valid(true)
 						.setSensor4((int) Math.round(getTemperatureAt (3)))
-						.setSensor4Valid(true)
+						//.setSensor4Valid(true)
 						.build ();
 			}
 				
