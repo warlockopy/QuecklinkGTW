@@ -47,7 +47,6 @@ public abstract class QueclinkReport {
 		else if (templateIds != null){
 			System.out.println ("Llamada a getTemplateId(" + index + "). El tamaño es " + templateIds.size ());
 		}
-		else System.out.println ("TemplateIds es null");
 		
 		return ans;
 	}

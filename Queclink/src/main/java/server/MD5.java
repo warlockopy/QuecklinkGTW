@@ -1,7 +1,5 @@
 package server;
 
-import java.io.FileInputStream;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -33,6 +31,7 @@ public class MD5 {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
 		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
 		return dateFormat.format(calendar.getTime());
 	}
 }

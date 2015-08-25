@@ -35,6 +35,4 @@ public class Gtbtc extends QueclinkReport {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	
 }

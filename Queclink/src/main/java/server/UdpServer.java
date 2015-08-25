@@ -53,7 +53,7 @@ public class UdpServer extends Thread {
 				StringTokenizer tok = new StringTokenizer (incomingMessage);
 				ArrayList <QueclinkReport> qlReports = new ArrayList ();
 				ArrayList <Boolean> valid = new ArrayList ();
-				ArrayList <String> allReports = new ArrayList ();
+				ArrayList <String> allReports = new ArrayList (); //Lista de reportes Queclink
 				
 				while (tok.hasMoreTokens()){
 					String reportMessage = tok.nextToken();
@@ -65,7 +65,7 @@ public class UdpServer extends Thread {
 					
 					QueclinkReport report = ReportBuilder.buildReport (reportMessage);
 					
-					if (report != null){
+					if (report != null){ //Si el reporte Queclink fue convertido exitosamente
 						qlReports.add(report);
 						valid.add(true);
 					}
@@ -116,6 +116,7 @@ public class UdpServer extends Thread {
 		
 		//Guardar
 		FileWriter fWriter;
+		
 		try {
 			fWriter = new FileWriter ("MENSAJES/MensajesEnviados.txt", false); //false para Sobreescribir
 			BufferedWriter writer = new BufferedWriter (fWriter);
@@ -130,6 +131,11 @@ public class UdpServer extends Thread {
 	
 	private void saveReports (ArrayList <String> reports, ArrayList <Boolean> sent, ResponsePrototype scope,
 		ServerResponse serverResponse){
+		
+		//reports: Lista de todos los reportes Queclink que llegan (n)
+		//sent:    Indica si un reporte fue enviado (n)
+		//scope:   
+		//serverResponse: 
 		
 		int responseIndex = 0;
 		

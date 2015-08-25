@@ -21,8 +21,7 @@ public class Gteri extends Gtfri {
 	private int ERIMask;
 	private int UARTDeviceType; //0:None, 1:Digit fuel sensor, 2:AC100 1 wire bus.
 	private String digitFuelSensorData;
-	private int AC100DevicesNumber;
-	
+	private int AC100DevicesNumber;	
 	private ArrayList <OneWireDevice> devices;
 	
 	public Gteri (final String asciiMessage){
@@ -78,34 +77,6 @@ public class Gteri extends Gtfri {
 		
 		EventHeader periodicPositionHeader;
 		EventHeader periodicTemperatureHeader;
-		
-		//Periodic position
-		//********************
-		periodicPositionHeader = EventHeader
-				.newBuilder()
-				.setDescription("PeriodicPosition")
-				.setDirection(greenHeader.getAzimuth())
-				.setLatitude(greenHeader.getLatitude())
-				.setLongitude(greenHeader.getLongitude())
-				.setOdometer(toKm (mileage))
-				.setSource(8)
-				.setSpeed((int) greenHeader.getSpeed())
-				.setTemplateId(ScopeEventCode.PeriodicPosition)
-				.setUnitId(uniqueId)
-				.setUtcTimestampSeconds(greenHeader.getUtcTime())
-				.setInputStatus(digitalInput)
-				.setOutputStatus(digitalOutput)
-				.setGeneralStatus(getGeneralStatus ())
-				.build ();
-		
-		PeriodicPosition periodicPosition = PeriodicPosition
-			.newBuilder()
-			.setHeader(periodicPositionHeader)
-			.build();
-		
-		ans = Base64.encodeBase64String (periodicPosition.toByteArray ());
-		addTemplateId (ScopeEventCode.PeriodicPosition);
-		//********************
 		
 		//Periodic Temperature (up to 4 sensors)
 		//**************************************
@@ -176,6 +147,34 @@ public class Gteri extends Gtfri {
 		}
 		//************************************
 		
+		//Periodic position
+		//********************
+		periodicPositionHeader = EventHeader
+				.newBuilder()
+				.setDescription("PeriodicPosition")
+				.setDirection(greenHeader.getAzimuth())
+				.setLatitude(greenHeader.getLatitude())
+				.setLongitude(greenHeader.getLongitude())
+				.setOdometer(toKm (mileage))
+				.setSource(8)
+				.setSpeed((int) greenHeader.getSpeed())
+				.setTemplateId(ScopeEventCode.PeriodicPosition)
+				.setUnitId(uniqueId)
+				.setUtcTimestampSeconds(greenHeader.getUtcTime())
+				.setInputStatus(digitalInput)
+				.setOutputStatus(digitalOutput)
+				.setGeneralStatus(getGeneralStatus ())
+				.build ();
+		
+		PeriodicPosition periodicPosition = PeriodicPosition
+			.newBuilder()
+			.setHeader(periodicPositionHeader)
+			.build();
+		
+		ans += Base64.encodeBase64String (periodicPosition.toByteArray ());
+		addTemplateId (ScopeEventCode.PeriodicPosition);
+		//********************
+		
 		return ans;
 	}
 	
@@ -195,16 +194,15 @@ public class Gteri extends Gtfri {
 		String ans = null;
 		
 		if (n > 0){
-			ans = "Devices (" + n + "):\n********************************";
+			ans = "Devices (" + n + "):\n****************";
 			
 			for (OneWireDevice device : devices)
-				ans += "\n" + device + "\n********************************";
+				ans += "\n" + device + "\n****************";
 		}
 		else
 			ans = "No devices.";
 		
 		return ans;
 	}
-	
 	
 }
