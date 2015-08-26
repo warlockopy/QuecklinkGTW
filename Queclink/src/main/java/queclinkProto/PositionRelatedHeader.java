@@ -35,11 +35,6 @@ public class PositionRelatedHeader {
 		lac = tok.nextHex();
 		cellId = tok.nextHex();
 		tok.nextToken(); //Reserved
-		
-		//Print local time
-		Date date = new Date (utcTime * 1000);
-		
-		System.out.println ("Time: " + date);
 	}
 	
 	public void setFields (Tokenizer tok, boolean oneReservedField){

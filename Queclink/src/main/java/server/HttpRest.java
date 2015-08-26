@@ -1,9 +1,6 @@
 package server;
 
-import java.net.URL;
 import java.io.*;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.*;

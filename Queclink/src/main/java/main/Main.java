@@ -1,7 +1,11 @@
 package main;
 
 import java.util.Scanner;
+
+import conversion.ReportBuilder;
+import queclinkProto.QueclinkReport;
 import server.UdpServer;
+import utilities.Converter;
 
 
 public class Main {
@@ -10,7 +14,13 @@ public class Main {
 		
 		Scanner sc = new Scanner (System.in);
 		
-		System.out.println ("");
+		//<Test>
+		
+		//while (sc.hasNext())
+		//	System.out.println(ReportBuilder.buildReport(sc.next()).encode());
+		
+		//System.exit(0);
+		//</Test>
 		
 		UdpServer server = new UdpServer (5000); //Local port 5000
 		server.start();

@@ -65,6 +65,9 @@ public class Gteri extends Gtfri {
 		
 		sendTime = toSeconds (tok.nextToken());
 		countNumber = tok.nextHex ();
+		
+		addTemplateId (ScopeEventCode.PeriodicTemperature);
+		addTemplateId (ScopeEventCode.PeriodicPosition);
 	}
 	
 	@Override
@@ -141,8 +144,7 @@ public class Gteri extends Gtfri {
 					.build ();
 			}
 			
-			ans += Base64.encodeBase64String (periodicTemperature.toByteArray ());
-			addTemplateId (ScopeEventCode.PeriodicTemperature);
+			ans = Base64.encodeBase64String (periodicTemperature.toByteArray ());
 		}
 		//************************************
 		
@@ -171,7 +173,6 @@ public class Gteri extends Gtfri {
 			.build();
 		
 		ans += " " + Base64.encodeBase64String (periodicPosition.toByteArray ());
-		addTemplateId (ScopeEventCode.PeriodicPosition);
 		//********************
 		
 		return ans;
