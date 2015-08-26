@@ -141,7 +141,7 @@ public class Gteri extends Gtfri {
 					.build ();
 			}
 			
-			ans += " " + Base64.encodeBase64String (periodicTemperature.toByteArray ());
+			ans += Base64.encodeBase64String (periodicTemperature.toByteArray ());
 			addTemplateId (ScopeEventCode.PeriodicTemperature);
 		}
 		//************************************
@@ -170,7 +170,7 @@ public class Gteri extends Gtfri {
 			.setHeader(periodicPositionHeader)
 			.build();
 		
-		ans += Base64.encodeBase64String (periodicPosition.toByteArray ());
+		ans += " " + Base64.encodeBase64String (periodicPosition.toByteArray ());
 		addTemplateId (ScopeEventCode.PeriodicPosition);
 		//********************
 		
@@ -280,7 +280,7 @@ public class Gteri extends Gtfri {
 					.build ();
 			}
 			
-			ans = " " + Base64.encodeBase64String (periodicTemperature.toByteArray ());
+			ans = Base64.encodeBase64String (periodicTemperature.toByteArray ());
 			addTemplateId (ScopeEventCode.PeriodicTemperature);
 		}
 		
