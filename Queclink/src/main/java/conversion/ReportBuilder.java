@@ -11,12 +11,12 @@ public class ReportBuilder {
 		}
 		
 		if (!receivedMessage.substring(0, 6).equals("+RESP:")){
-			System.err.println ("Missing prefix +RESP:");
+			System.err.println ("Missing prefix +RESP:\n");
 			return null;
 		}
 		
 		if (!receivedMessage.endsWith("$")){
-			System.err.println ("Missing tail character $:");
+			System.err.println ("Missing tail character $:\n");
 			return null;
 		}
 		

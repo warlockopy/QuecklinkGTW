@@ -100,7 +100,8 @@ public class Gteri extends Gtfri {
 			PeriodicTemperature periodicTemperature = null;
 			int generalStatus = getGeneralStatus ();
 			
-			System.out.println ("\nPeriodic Temperature General Status = " + generalStatus + "\n");
+			System.out.print ("Periodic Temperature General Status = " + generalStatus);
+			System.out.println (" (" + analogInputVcc / 1000.0 + " V)\n");
 			
 			if (devices.size () == 1){ // 1 sensor
 				periodicTemperature = PeriodicTemperature
@@ -296,24 +297,6 @@ public class Gteri extends Gtfri {
 		
 		if (index < devices.size())
 			ans = devices.get(index).getTemperatureCelsius();
-		
-		return ans;
-	}
-	
-	
-	@Override
-	public String toString (){
-		int n = AC100DevicesNumber;
-		String ans = null;
-		
-		if (n > 0){
-			ans = "Devices (" + n + "):\n****************";
-			
-			for (OneWireDevice device : devices)
-				ans += "\n" + device + "\n****************";
-		}
-		else
-			ans = "No devices.";
 		
 		return ans;
 	}
