@@ -98,6 +98,9 @@ public class Gteri extends Gtfri {
 				.build ();
 				
 			PeriodicTemperature periodicTemperature = null;
+			int generalStatus = getGeneralStatus ();
+			
+			System.out.println ("\nPeriodic Temperature General Status = " + generalStatus + "\n");
 			
 			if (devices.size () == 1){ // 1 sensor
 				periodicTemperature = PeriodicTemperature
