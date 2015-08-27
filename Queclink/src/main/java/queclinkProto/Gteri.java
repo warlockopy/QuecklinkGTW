@@ -68,6 +68,13 @@ public class Gteri extends Gtfri {
 		
 		addTemplateId (ScopeEventCode.PeriodicTemperature);
 		addTemplateId (ScopeEventCode.PeriodicPosition);
+		
+		//Show temperatures
+		for (int i = 0; i < devices.size(); ++i)
+			System.out.println ("TEMPERATURE " + (i+1) + ": " + getTemperatureAt (i));
+		//
+		if (devices.size () > 0) System.out.println ();
+		
 	}
 	
 	@Override
