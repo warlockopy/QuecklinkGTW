@@ -31,7 +31,7 @@ public class ReportBuilder {
 		else if (reportType.equals("GTIDN")) return new Gtidn (messageData);
 		else if (reportType.equals("GTERI")) return new Gteri (messageData);
 		else{
-			System.err.println ("Unknown report " + reportType);
+			System.err.println ("Unknown report " + reportType + "\n");
 			return null;
 		}
 	}

@@ -323,4 +323,9 @@ public class Gteri extends Gtfri {
 		return ScopeEventCode.PeriodicTemperature;
 	}
 	
+	@Override
+	public int getGeneralStatus (){ //Equipos que se encuentran en contenedores
+		return analogInputVcc > 12000 ? 0x001 : 0x000;
+	}
+	
 }
