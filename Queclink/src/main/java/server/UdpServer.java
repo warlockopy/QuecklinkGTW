@@ -46,20 +46,20 @@ public class UdpServer extends Thread {
 				
 				sock.receive(incoming);
 				byte [] data = incoming.getData ();
-				InetAddress ipAddress = incoming.getAddress();
-				int port = incoming.getPort();
+				//InetAddress ipAddress = incoming.getAddress();
+				//int port = incoming.getPort();
 				
 				String incomingMessage = new String (data, 0, incoming.getLength ());
-				String mobileId = getMobileIdFrom (incomingMessage);
+				//String mobileId = getMobileIdFrom (incomingMessage);
 				
 				StringTokenizer tok = new StringTokenizer (incomingMessage);
-				ArrayList <QueclinkReport> qlReports = new ArrayList ();
-				ArrayList <Boolean> valid = new ArrayList ();
-				ArrayList <String> allReports = new ArrayList (); //Lista de reportes Queclink
+				//ArrayList <QueclinkReport> qlReports = new ArrayList ();
+				//ArrayList <Boolean> valid = new ArrayList ();
+				//ArrayList <String> allReports = new ArrayList (); //Lista de reportes Queclink
 				
 				while (tok.hasMoreTokens()){
 					String reportMessage = tok.nextToken();
-					allReports.add (reportMessage);
+					//allReports.add (reportMessage);
 					System.out.println ("Incoming report " + reportMessage + "\n");
 					
 					Report report =  new Report (reportMessage);
