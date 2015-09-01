@@ -25,7 +25,7 @@ public class HttpRest {
 	public static String ScopePath = "/Scope.MProfiler.ThirdPartyGateway.Api/api/v1/messages";
 	public static String username = "PYLS", password = "Dn1f8C5XeJj42AzG";
 	
-	
+	//Sends string to scope server
 	public static HttpOutput httpsClientC(String datoJson) throws Exception {
 		
 		String output = "";

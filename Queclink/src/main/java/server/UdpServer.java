@@ -1,5 +1,7 @@
 package server;
 
+import improvement.Report;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -60,9 +62,12 @@ public class UdpServer extends Thread {
 					allReports.add (reportMessage);
 					System.out.println ("Incoming report " + reportMessage + "\n");
 					
-					//Show IP address and port
-					//System.out.println ("from IP " + incoming.getAddress() + " port " + incoming.getPort() + "\n");
+					Report report =  new Report (reportMessage);
+					report.send();
+					report.save();
 					
+					//Old version
+					/*
 					QueclinkReport report = ReportBuilder.buildReport (reportMessage);
 					
 					if (report != null){ //Si el reporte Queclink fue convertido exitosamente
@@ -72,10 +77,12 @@ public class UdpServer extends Thread {
 					else{
 						//System.out.println ("Invalid report\n");
 						valid.add (false);
-					}
+					}*/
 						
 				}
 				
+				//Old version
+				/*
 				if (!qlReports.isEmpty()){
 					String scopeString = QueclinkToScope.toScopeString(qlReports);
 					HttpOutput serverOutput = sendToScopeServer (scopeString);
@@ -90,7 +97,7 @@ public class UdpServer extends Thread {
 						saveReports (allReports, valid, responsePrototype, serverResponse);
 					}
 					
-				}
+				}*/
 			}
 			
 		}

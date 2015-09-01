@@ -13,6 +13,28 @@ public class QueclinkToScope {
 	
 	private static Gson gson = new Gson ();
 	
+	public static String convert (String queclinkString){
+		QueclinkReport queclinkReport = ReportBuilder.buildReport(queclinkString);
+		
+		if (queclinkReport == null) return null; //Invalid report
+		
+		ResponsePrototype response = new ResponsePrototype ();
+		MessagesPostPrototype message = new MessagesPostPrototype ();
+		StringTokenizer tok = new StringTokenizer (queclinkReport.encode ());
+		int index = 0;
+		
+		while (tok.hasMoreTokens()){
+			message.setTemplateId(queclinkReport.getTemplateIdAt (index++));
+			message.setUnitId (queclinkReport.getUnitId());
+			message.setEncodedBody (tok.nextToken());
+			response.addMessage (message);
+		}
+		
+		if (index == 0) return null;
+		
+		return gson.toJson (response);
+	}
+	
 	public static String toScopeString (ArrayList <QueclinkReport> datos){
 		
 		ResponsePrototype response = new ResponsePrototype ();
