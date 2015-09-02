@@ -21,9 +21,6 @@ public class Report{
 	private String serverResponse;
 	private boolean conversionSuccess;
 	
-	//Static variables
-	
-	
 	//Constants
 	static final String baseDirectory = "/home/sistema/git/Log/Queclink/EVENTS/";
 	static final String separatorLine = "\n----------------";
@@ -37,7 +34,7 @@ public class Report{
 	public void send (){
 		if (conversionSuccess){
 			try {
-				System.out.println ("Sending " + scopeReport);
+				System.out.println ("Sending " + scopeReport + "\n");
 				HttpOutput httpOutput = HttpRest.httpsClientC(scopeReport);
 				serverResponse = httpOutput.getOutput();
 			} catch (Exception e) {
@@ -45,8 +42,6 @@ public class Report{
 				e.printStackTrace();
 			}
 		}
-		else
-			System.out.println ("Nothing was sent");
 	}
 	
 	//scopeString <- convertQueclinkToScope (queclinkReport)

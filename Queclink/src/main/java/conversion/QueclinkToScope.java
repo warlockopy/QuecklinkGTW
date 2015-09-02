@@ -30,11 +30,12 @@ public class QueclinkToScope {
 			response.addMessage (message);
 		}
 		
-		if (index == 0) return null;
+		//if (index == 0) return null;
 		
 		return gson.toJson (response);
 	}
 	
+	@Deprecated
 	public static String toScopeString (ArrayList <QueclinkReport> datos){
 		
 		ResponsePrototype response = new ResponsePrototype ();
@@ -55,14 +56,6 @@ public class QueclinkToScope {
 				response.addMessage (message);
 			}
 			
-			/*
-			MessagesPostPrototype message = new MessagesPostPrototype ();
-			message.setTemplateId(report.getTemplateId ());
-			message.setUnitId (report.getUnitId ());
-			message.setEncodedBody (report.encode ());
-			
-			response.addMessage (message);
-			*/
 		}
 		
 		return gson.toJson (response);

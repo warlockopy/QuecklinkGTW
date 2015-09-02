@@ -24,12 +24,12 @@ public class ReportBuilder {
 		String reportType = receivedMessage.substring(6, 11);
 		
 		if (reportType.equals("GTFRI")) return new Gtfri (messageData);
+		else if (reportType.equals("GTERI")) return new Gteri (messageData);
 		else if (reportType.equals("GTIGF")) return new Gtigf (messageData);
 		else if (reportType.equals("GTIGN")) return new Gtign (messageData);
 		else if (reportType.equals("GTMPN")) return new Gtmpn (messageData);
 		else if (reportType.equals("GTMPF")) return new Gtmpf (messageData);
 		else if (reportType.equals("GTIDN")) return new Gtidn (messageData);
-		else if (reportType.equals("GTERI")) return new Gteri (messageData);
 		else{
 			System.err.println ("Unknown report " + reportType + "\n");
 			return null;

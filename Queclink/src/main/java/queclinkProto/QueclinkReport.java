@@ -15,7 +15,7 @@ public abstract class QueclinkReport {
 	protected long sendTime;
 	protected int countNumber;
 	
-	private final double MILE2KM = 1.609344;
+	private static final double MILE2KM = 1.609344;
 	private static final long timeAdjust = -4 * 3600;
 	
 	public abstract String encode ();
@@ -80,7 +80,7 @@ public abstract class QueclinkReport {
 		else if (code.equals("11")) ans = "GL500";
 		else if (code.equals("1A")) ans = "GL300";
 		else if (code.equals("1F")) ans = "GV500";
-		else    ans = "<Unknown code " + code + ">";
+		else ans = "<Unknown code " + code + ">";
 		
 		return ans;
 	}

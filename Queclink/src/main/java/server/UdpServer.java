@@ -13,19 +13,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import queclinkProto.*;
+import commands.Command;
+
 import scopeProto.ResponsePrototype;
 import utilities.Tokenizer;
 
-import com.google.gson.Gson;
-
-import commands.Command;
-import conversion.QueclinkToScope;
-import conversion.ReportBuilder;
-
 public class UdpServer extends Thread {
 	
-	static final int bufferSize = 65536;
+	private static final int bufferSize = 65536;
 	private int localPortNumber;
 	private DatagramSocket sock = null;
 	
@@ -106,6 +101,7 @@ public class UdpServer extends Thread {
 		}
 	}
 	
+	@Deprecated
 	private void sendMessage (final String message, final String mobileId, final InetAddress ipAddress, int port){
 		
 		Command command = new Command (message, mobileId);
@@ -136,96 +132,4 @@ public class UdpServer extends Thread {
 		
 	}
 	
-	private void saveReports (ArrayList <String> reports, ArrayList <Boolean> sent, ResponsePrototype scope,
-		ServerResponse serverResponse){
-		
-		//reports: Lista de todos los reportes Queclink que llegan (n)
-		//sent:    Indica si un reporte fue enviado (n)
-		//scope:   
-		//serverResponse: 
-		
-		int responseIndex = 0;
-		
-		for (int i = 0; i < reports.size (); ++i){
-			
-			String toSave = reports.get(i);
-			String scopeString = "";
-			String serverString = "";
-			String mobileId = getMobileIdFrom (toSave);
-			
-			if (sent.get (i)){
-				scopeString = scope.getJsonMessageAt (responseIndex);
-				serverString = serverResponse.getResultAt(responseIndex);
-				++responseIndex;
-			}
-			
-			if (sent.get (i)){
-				toSave += "\n--------\n" + scopeString + "\n--------\n" + serverString + "\n";
-			}
-			else
-				toSave += "\n--------\n" + "Invalid report" + "\n";
-			
-			saveString (toSave, mobileId);
-		}
-	}
-	
-	private static void saveString (final String string, final String mobileId){
-		
-		DateFormat format = new SimpleDateFormat ("yyyy_MM_dd");
-		String dateString = format.format (new Date ());
-		String dir = "EVENTS/EVENTS_" + dateString;
-		String fileName = mobileId + ".txt";
-		
-		File directory = new File (dir);
-		String path = directory.getAbsolutePath() + "/" + fileName;
-		
-		if (!directory.exists())
-			if (directory.mkdir() == false)
-				System.out.println ("Error. No se pudo crear el directorio " + directory.getAbsolutePath());
-		
-		try {
-			FileWriter fWriter = new FileWriter (dir + "/" + fileName, true);
-			BufferedWriter writer = new BufferedWriter (fWriter);
-			
-			writer.write(string);
-			writer.newLine();
-			
-			writer.close ();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
-	private HttpOutput sendToScopeServer (final String scopeString) {
-		
-		System.out.println ("Sending " + scopeString + "\n");
-		HttpOutput ans = null;
-		
-		try {
-			ans = HttpRest.httpsClientC (scopeString);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return ans;
-	}
-	
-	public static String getMobileIdFrom (final String queclinkString){
-		
-		String ans = "0";
-		
-		Tokenizer tok = new Tokenizer (queclinkString);
-		
-		if (tok.countTokens() >= 3){
-			tok.nextToken(); //+RESP:GTXXX
-			tok.nextToken(); //Protocol version
-			ans = tok.nextToken(); //uniqueId
-		}
-		
-		return ans;
-		
-	}
 }

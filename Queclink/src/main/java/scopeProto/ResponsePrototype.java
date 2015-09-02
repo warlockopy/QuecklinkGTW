@@ -7,12 +7,11 @@ import com.google.gson.Gson;
 public class ResponsePrototype {
 	private String batch_id;
 	private ArrayList <MessagesPostPrototype> messages;
+	private static final String tabla = "0123456789abcdef";
 	
 	public ResponsePrototype (){
 		messages = new ArrayList ();
 		batch_id = "";
-		final String tabla = "0123456789abcdef";
-		
 		
 		for (int i = 0; i < 32; ++i){
 			
@@ -30,7 +29,7 @@ public class ResponsePrototype {
 		messages.add (newMessage);
 	}
 	
-	public int messagesCount (){
+	public int countMessages (){
 		return messages.size ();
 	}
 	
