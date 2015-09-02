@@ -20,10 +20,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HTTP;
 
 public class HttpRest {
-	public static String urlscope = "https://us.scopemp.net/Scope.MProfiler.ThirdPartyGateway.Api/api/v1/messages";
-	public static String ScopeHost = "us.scopemp.net";
-	public static String ScopePath = "/Scope.MProfiler.ThirdPartyGateway.Api/api/v1/messages";
-	public static String username = "PYLS", password = "Dn1f8C5XeJj42AzG";
+	public static final String urlscope = "https://us.scopemp.net/Scope.MProfiler.ThirdPartyGateway.Api/api/v1/messages";
+	public static final String ScopeHost = "us.scopemp.net";
+	public static final String ScopePath = "/Scope.MProfiler.ThirdPartyGateway.Api/api/v1/messages";
+	public static final String username = "PYLS", password = "Dn1f8C5XeJj42AzG";
 	
 	//Sends string to scope server
 	public static HttpOutput httpsClientC(String datoJson) throws Exception {
@@ -33,18 +33,17 @@ public class HttpRest {
 		
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpPost post = new HttpPost(urlscope);
-		String mydatetime, auheader;
+		String myDateTime, auHeader;
 		
-		mydatetime = MD5.getCurrentTime();
+		myDateTime = MD5.getCurrentTime();
 		post.setHeader("Accept", "application/json");
 		post.setHeader(HTTP.CONTENT_TYPE, "application/json");
 		
-		auheader =  username + ":" + password;
-		String encodedaut = Base64.encodeBase64String(auheader.getBytes());
+		auHeader =  username + ":" + password;
+		String encodedAut = Base64.encodeBase64String(auHeader.getBytes());
 
-		
-		post.addHeader("Authorization", "Basic " + encodedaut);
-		post.addHeader("date", mydatetime);
+		post.addHeader("Authorization", "Basic " + encodedAut);
+		post.addHeader("date", myDateTime);
 		
 		StringEntity input = new StringEntity(datoJson);
 		input.setContentType("application/json");
@@ -114,7 +113,7 @@ public class HttpRest {
 				System.out.print(response.getProtocolVersion() + " ");
 				System.out.print(response.getStatusLine().getStatusCode() + " ");
 				System.out.println(response.getStatusLine().getReasonPhrase() + "\n");
-				HttpEntity entity = response.getEntity();
+				//HttpEntity entity = response.getEntity();
 			} finally {
 				response.close();
 			}

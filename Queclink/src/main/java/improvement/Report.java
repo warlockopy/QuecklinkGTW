@@ -109,5 +109,9 @@ public class Report{
 		
 		return dateString;
 	}
+
+	public boolean getConversionSuccess() {
+		return conversionSuccess;
+	}
 	
 }

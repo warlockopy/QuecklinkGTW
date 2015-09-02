@@ -3,20 +3,14 @@ package server;
 import improvement.Report;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import commands.Command;
-
-import scopeProto.ResponsePrototype;
-import utilities.Tokenizer;
 
 public class UdpServer extends Thread {
 	
@@ -50,7 +44,7 @@ public class UdpServer extends Thread {
 				StringTokenizer tok = new StringTokenizer (incomingMessage);
 				//ArrayList <QueclinkReport> qlReports = new ArrayList ();
 				//ArrayList <Boolean> valid = new ArrayList ();
-				//ArrayList <String> allReports = new ArrayList (); //Lista de reportes Queclink
+				//ArrayList <String> allReports = new ArrayList ();
 				
 				while (tok.hasMoreTokens()){
 					String reportMessage = tok.nextToken();
@@ -59,13 +53,15 @@ public class UdpServer extends Thread {
 					
 					Report report =  new Report (reportMessage);
 					report.send();
-					report.save();
+					
+					if (report.getConversionSuccess ())
+						report.save();
 					
 					//Old version
 					/*
 					QueclinkReport report = ReportBuilder.buildReport (reportMessage);
 					
-					if (report != null){ //Si el reporte Queclink fue convertido exitosamente
+					if (report != null){
 						qlReports.add(report);
 						valid.add(true);
 					}
@@ -121,7 +117,7 @@ public class UdpServer extends Thread {
 		FileWriter fWriter;
 		
 		try {
-			fWriter = new FileWriter ("MENSAJES/MensajesEnviados.txt", false); //false para Sobreescribir
+			fWriter = new FileWriter ("MENSAJES/MensajesEnviados.txt", false); //false para sobreescribir
 			BufferedWriter writer = new BufferedWriter (fWriter);
 			writer.write(mobileId + " " + message + "\n");
 			writer.close ();
