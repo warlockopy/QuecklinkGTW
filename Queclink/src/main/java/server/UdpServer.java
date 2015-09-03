@@ -35,20 +35,12 @@ public class UdpServer extends Thread {
 				
 				sock.receive(incoming);
 				byte [] data = incoming.getData ();
-				//InetAddress ipAddress = incoming.getAddress();
-				//int port = incoming.getPort();
 				
 				String incomingMessage = new String (data, 0, incoming.getLength ());
-				//String mobileId = getMobileIdFrom (incomingMessage);
-				
 				StringTokenizer tok = new StringTokenizer (incomingMessage);
-				//ArrayList <QueclinkReport> qlReports = new ArrayList ();
-				//ArrayList <Boolean> valid = new ArrayList ();
-				//ArrayList <String> allReports = new ArrayList ();
 				
 				while (tok.hasMoreTokens()){
 					String reportMessage = tok.nextToken();
-					//allReports.add (reportMessage);
 					System.out.println ("Incoming report " + reportMessage + "\n");
 					
 					Report report =  new Report (reportMessage);
@@ -56,39 +48,9 @@ public class UdpServer extends Thread {
 					
 					if (report.getConversionSuccess ())
 						report.save();
-					
-					//Old version
-					/*
-					QueclinkReport report = ReportBuilder.buildReport (reportMessage);
-					
-					if (report != null){
-						qlReports.add(report);
-						valid.add(true);
-					}
-					else{
-						//System.out.println ("Invalid report\n");
-						valid.add (false);
-					}*/
 						
 				}
 				
-				//Old version
-				/*
-				if (!qlReports.isEmpty()){
-					String scopeString = QueclinkToScope.toScopeString(qlReports);
-					HttpOutput serverOutput = sendToScopeServer (scopeString);
-					String output = serverOutput.getOutput();
-					int httpCode = serverOutput.getCode();
-					
-					if (httpCode == 200){
-						Gson gson = new Gson ();
-						ServerResponse serverResponse = gson.fromJson (output, ServerResponse.class);
-						ResponsePrototype responsePrototype = gson.fromJson(scopeString, ResponsePrototype.class);
-					
-						saveReports (allReports, valid, responsePrototype, serverResponse);
-					}
-					
-				}*/
 			}
 			
 		}
@@ -113,7 +75,7 @@ public class UdpServer extends Thread {
 			e.printStackTrace();
 		}
 		
-		//Guardar
+		//Save
 		FileWriter fWriter;
 		
 		try {

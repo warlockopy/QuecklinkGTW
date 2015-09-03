@@ -44,7 +44,6 @@ public class Report{
 		}
 	}
 	
-	//scopeString <- convertQueclinkToScope (queclinkReport)
 	private void convert (){
 		scopeReport = QueclinkToScope.convert(queclinkReport);
 		conversionSuccess = scopeReport != null;

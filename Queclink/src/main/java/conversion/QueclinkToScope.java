@@ -30,8 +30,6 @@ public class QueclinkToScope {
 			response.addMessage (message);
 		}
 		
-		//if (index == 0) return null;
-		
 		return gson.toJson (response);
 	}
 	
