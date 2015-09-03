@@ -115,7 +115,8 @@ public class Gteri extends Gtfri {
 					.newBuilder ()
 					.setHeader(periodicTemperatureHeader)
 					.setSensor1((int) Math.round(getTemperatureAt (0)))
-					//.setSensor1Valid(true)
+					.setSensor1Valid(true)
+					.setTemperatureStatus(1)
 					.build ();
 				
 			} else if (devices.size () == 2){ // 2 sensors
@@ -123,9 +124,10 @@ public class Gteri extends Gtfri {
 					.newBuilder ()
 					.setHeader(periodicTemperatureHeader)
 					.setSensor1((int) Math.round(getTemperatureAt (0)))
-					//.setSensor1Valid(true)
+					.setSensor1Valid(true)
 					.setSensor2((int) Math.round(getTemperatureAt (1)))
-					//.setSensor2Valid(true)
+					.setSensor2Valid(true)
+					.setTemperatureStatus(3)
 					.build ();
 				
 			} else if (devices.size () == 3){ // 3 sensors
@@ -133,11 +135,12 @@ public class Gteri extends Gtfri {
 					.newBuilder ()
 					.setHeader(periodicTemperatureHeader)
 					.setSensor1((int) Math.round(getTemperatureAt (0)))
-					//.setSensor1Valid(true)
+					.setSensor1Valid(true)
 					.setSensor2((int) Math.round(getTemperatureAt (1)))
-					//.setSensor2Valid(true)
+					.setSensor2Valid(true)
 					.setSensor3((int) Math.round(getTemperatureAt (2)))
-					//.setSensor3Valid(true)
+					.setSensor3Valid(true)
+					.setTemperatureStatus(7)
 					.build ();
 				
 			} else {// 4 or more sensors
@@ -145,13 +148,14 @@ public class Gteri extends Gtfri {
 					.newBuilder ()
 					.setHeader(periodicTemperatureHeader)
 					.setSensor1((int) Math.round(getTemperatureAt (0)))
-					//.setSensor1Valid(true)
+					.setSensor1Valid(true)
 					.setSensor2((int) Math.round(getTemperatureAt (1)))
-					//.setSensor2Valid(true)
+					.setSensor2Valid(true)
 					.setSensor3((int) Math.round(getTemperatureAt (2)))
-					//.setSensor3Valid(true)
+					.setSensor3Valid(true)
 					.setSensor4((int) Math.round(getTemperatureAt (3)))
-					//.setSensor4Valid(true)
+					.setSensor4Valid(true)
+					.setTemperatureStatus(15)
 					.build ();
 			}
 			
