@@ -16,7 +16,7 @@ public abstract class QueclinkReport {
 	protected int countNumber;
 	
 	private static final double MILE2KM = 1.609344;
-	private static final long timeAdjust = -4 * 3600;
+	private static final long timeAdjust = -3 * 3600;
 	
 	public abstract String encode ();
 	
